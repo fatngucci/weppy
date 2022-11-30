@@ -9,8 +9,10 @@
 
 {% block logged_in_content %}
     <h2>Add snack</h2>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
+
+
 
         <label>Name:</label>
         <input type="text" name="name"><br><br>
@@ -24,8 +26,12 @@
         <label>Artikelnummer:</label>
         <input type="text" name="artikelnummer"><br><br>
 
-        <label>preis:</label>
+        <label>Preis:</label>
         <input type="number" name="preis"><br><br>
+
+        <label>Foto:</label>
+        <input type="file" name="pictures" accept="image/*"><br><br>
+
 
         <br><br>
 

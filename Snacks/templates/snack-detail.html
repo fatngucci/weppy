@@ -50,12 +50,12 @@
 
         <span>{{ comment.get_upvotes_count }}</span>
         <a href="{% url 'comment-vote' comment.id 'up' %}">
-            <img src="{% static 'ComputerGames/upvote.png' %}" height="30" width ="30">
+            <img src="{% static 'Snacks/upvote.png' %}" height="30" width ="30">
         </a>
 
         <span>{{ comment.get_downvotes_count }}</span>
         <a href="{% url 'comment-vote' comment.id 'down' %}">
-            <img src="{% static 'ComputerGames/downvote.png' %}" height="30" width ="30">
+            <img src="{% static 'Snacks/downvote.png' %}" height="30" width ="30">
         </a>
         <br><br>
 

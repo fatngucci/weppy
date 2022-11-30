@@ -6,7 +6,7 @@ class SnackForm(forms.ModelForm):
 
     class Meta:
         model = Snack
-        fields = ['name', 'gewicht', 'beschreibung', 'pictures', 'artikelnummer', 'preis']
+        fields = ('name', 'gewicht', 'beschreibung', 'pictures', 'artikelnummer', 'preis')
         widgets = {
             'hersteller': forms.HiddenInput(),
         }
@@ -18,5 +18,5 @@ class CommentForm(forms.ModelForm):
         fields = ['text']
         widgets = {
             'poster': forms.HiddenInput(),
-            'snack': forms.HiddenInput
+            'snack': forms.HiddenInput(),
         }
