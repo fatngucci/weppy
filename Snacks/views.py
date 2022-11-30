@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
-from .forms import SnackForm
-from .models import Snack
+from .forms import SnackForm, CommentForm
+from .models import Snack, Comment
 
 # Create your views here.
 
@@ -13,7 +13,21 @@ def snacks_detail(request, **kwargs):
     snack_id = kwargs['pk']
     that_one_snack = Snack.objects.get(id=snack_id)
 
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        form.instance.poster = request.user
+        form.instance.snack = that_one_snack
+        if form.is_valid():
+            form.save()
+        else:
+            print(form.errors)
+
+    comments = Comment.objects.filter(snack=that_one_snack)
     context = {'that_one_snack': that_one_snack,
+               'comments_for_that_one_snack': comments,
+               'upvotes': that_one_snack.get_upvotes_count(),
+               'downvotes': that_one_snack.get_downvotes_count(),
+               'comment_form': CommentForm
                }
 
     return render(request, 'snack-detail.html', context)
@@ -46,3 +60,9 @@ def snacks_delete(request, **kwargs):
         return redirect('snack-list')
 
     return render(request, 'snack-delete.html', context)
+
+def vote(request, pk: str, up_or_down: str):
+    snack = Snack.objects.get(id=int(pk))
+    voter = request.user
+    snack.vote(voter, up_or_down)
+    return redirect('snack-detail', pk=pk)
