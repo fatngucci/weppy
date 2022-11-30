@@ -25,8 +25,6 @@ def snacks_detail(request, **kwargs):
     comments = Comment.objects.filter(snack=that_one_snack)
     context = {'that_one_snack': that_one_snack,
                'comments_for_that_one_snack': comments,
-               'upvotes': that_one_snack.get_upvotes_count(),
-               'downvotes': that_one_snack.get_downvotes_count(),
                'comment_form': CommentForm
                }
 
@@ -62,7 +60,8 @@ def snacks_delete(request, **kwargs):
     return render(request, 'snack-delete.html', context)
 
 def vote(request, pk: str, up_or_down: str):
-    snack = Snack.objects.get(id=int(pk))
+    comment = Comment.objects.get(id=int(pk))
     voter = request.user
-    snack.vote(voter, up_or_down)
-    return redirect('snack-detail', pk=pk)
+    comment.vote(voter, up_or_down)
+    snack_id = comment.snack.id
+    return redirect('snack-detail', pk=snack_id)
