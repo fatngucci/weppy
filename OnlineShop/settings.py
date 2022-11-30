@@ -51,7 +51,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'OnlineShopdjangoProject.urls'
+ROOT_URLCONF = 'OnlineShop.urls'
 
 TEMPLATES = [
     {

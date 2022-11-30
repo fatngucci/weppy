@@ -1,10 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'home.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'Snacks/snacks_style.css' %}">
+{% endblock %}
+
+{% block title %}Delete snack{% endblock %}
+
+{% block logged_in_content%}
+    <h2>Delete snack</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <p>Are you sure you want to delete "{{ that_one_snack }}"?</p>
+
+        <input type="submit" name="delete" value="Confirm">
+        <input type="submit" name="cancel" value="Cancel">
+    </form>
+
+
+{% endblock %}
+
+{% block not_logged_in_content %}
+    <p>You must log in to delete snacks</p>
+    <a href="{% url 'login' %}">Login</a>
+{% endblock %}

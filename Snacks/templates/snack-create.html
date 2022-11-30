@@ -1,10 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'home.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'Snacks/snacks_style.css' %}">
+{% endblock %}
+
+{% block title %}Add snack{% endblock %}
+
+{% block logged_in_content %}
+    <h2>Add snack</h2>
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Name:</label>
+        <input type="text" name="name"><br><br>
+
+        <label>Gewicht:</label>
+        <input type="number" name="gewicht"><br><br>
+
+        <label>Beschreibung:</label>
+        <input type="text" name="beschreibung"><br><br>
+
+        <label>Artikelnummer:</label>
+        <input type="text" name="artikelnummer"><br><br>
+
+        <label>preis:</label>
+        <input type="number" name="preis"><br><br>
+
+        <br><br>
+
+        <button type="submit">Add snack</button>
+
+
+    </form>
+{% endblock %}
+
+{% block not_logged_in_content %}
+    <p>You must log in to add a snack</p>
+    <a href="{% url 'login' %}">Login</a>
+{% endblock %}

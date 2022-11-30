@@ -1,10 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'home.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'Snacks/snacks_style.css' %}">
+{% endblock %}
+
+{% block title %}Snack list{% endblock %}
+
+{% block content %}
+    <h2>Snack list</h2>
+    <ul>
+        {% for snack in all_the_snacks %}
+            <a href="{% url 'snack-detail' snack.id %}"><b>{{  snack.name }}</b></a><br>
+            {{ snack.gewicht }} / {{ snack.preis }} <br>
+            <br>
+        {% endfor %}
+    </ul>
+
+    <a href={% url 'snack-create' %}>Add a new snack</a><br>
+{% endblock %}

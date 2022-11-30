@@ -1,10 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'home.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'Snacks/snacks_style.css' %}">
+{% endblock %}
+
+{% block title %} Snack detail{% endblock %}
+
+{% block content %}
+<h2>Snack detail</h2>
+
+    <table>
+        <tr>
+            <td><b>Name:</b></td>
+            <td>{{ that_one_snack.name }}<br></td>
+        </tr>
+        <tr>
+            <td><b>Gewicht:</b></td>
+            <td>{{ that_one_snack.gewicht }} g<br></td>
+        </tr>
+        <tr>
+            <td><b>Beschreibung:</b></td>
+            <td>{{ that_one_snack.beschreibung }}<br></td>
+        </tr>
+        <tr>
+            <td><b>Artikelnummer:</b></td>
+            <td>{{ that_one_snack.artikelnummer }}</td>
+        </tr>
+        <tr>
+            <td><b>Preis:</b></td>
+            <td>{{ that_one_snack.preis }} €</td>
+        </tr>
+        <tr>
+            <td><b>Hersteller:</b></td>
+            <td>{{ that_one_snack.hersteller.username }}</td>
+        </tr>
+        <tr>
+            <td><b>Erstellungs-Zeitstempel:</b></td>
+            <td>{{ that_one_snack.erstellungs_zeitstempel }}</td>
+        </tr>
+    </table>
+
+    <br><br>
+
+    <!--
+    {% for comment in comments_for_that_one_game %}
+        <b style="color: blue">{{ comment.poster.username }} on {{ comment.timestamp }}</b><br>
+        {{ comment.text }}<br>
+
+        <!-updown->
+        <span>{{ comment.get_upvotes_count }}</span>
+        <a href="{% url 'comment-vote' comment.id 'up' %}">
+            <img src="{% static 'ComputerGames/upvote.png' %}" height="30" width ="30">
+        </a>
+
+        <span>{{ comment.get_downvotes_count }}</span>
+        <a href="{% url 'comment-vote' comment.id 'down' %}">
+            <img src="{% static 'ComputerGames/downvote.png' %}" height="30" width ="30">
+        </a>
+        <br><br>
+
+    {% endfor %}
+    <br>
+        <!-end updown->
+
+    <b style="color: white">Share your thoughts on this game</b><br>
+    <form method="POST">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Post comment</button>
+    </form>
+    -->
+    <br>
+    <a href="{{ snack.id }}delete/">Delete snack</a>
+
+    <br>
+    <a href="{% url 'snack-list' %}">Back to all snacks</a>
+
+{% endblock %}

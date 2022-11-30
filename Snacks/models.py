@@ -4,7 +4,7 @@ from django.conf import settings
 # Create your models here.
 class Snack(models.Model):
     name = models.CharField(max_length=50) # z.B. Chilli Chips Extra Hot
-    gewicht = models.IntegerField(max_length=50) # z.B. 400g
+    gewicht = models.IntegerField() # z.B. 400g
     beschreibung = models.CharField(max_length=1000, blank=True) # zutaten usw.
     artikelnummer = models.CharField(max_length=100)
     hersteller = models.ForeignKey(settings.AUTH_USER_MODEL, # Private User, Firma, usw. muss eigenes Profil haben
@@ -12,7 +12,7 @@ class Snack(models.Model):
                                    related_name='Hersteller',
                                    related_query_name='Hersteller'
                                    )
-    preis = models.FloatField(max_length=50) # in € z.B. 2.50 €
+    preis = models.FloatField() # in € z.B. 2.50 €
     erstellungs_zeitstempel = models.DateTimeField(auto_now_add=True)
 
     class Meta:
