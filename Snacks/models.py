@@ -6,6 +6,7 @@ class Snack(models.Model):
     name = models.CharField(max_length=50) # z.B. Chilli Chips Extra Hot
     gewicht = models.IntegerField() # z.B. 400g
     beschreibung = models.CharField(max_length=1000, blank=True) # zutaten usw.
+    pictures = models.ImageField(upload_to='snack_pictures/', blank=True, null=True)
     artikelnummer = models.CharField(max_length=100)
     hersteller = models.ForeignKey(settings.AUTH_USER_MODEL, # Private User, Firma, usw. muss eigenes Profil haben
                                    on_delete=models.CASCADE,
@@ -21,10 +22,10 @@ class Snack(models.Model):
         verbose_name_plural = 'Snacks'
 
     def __str__(self):
-        return self.name + ' / ' + self.gewicht + ' / ' + self.preis
+        return self.name + ' / ' + str(self.gewicht) + ' / ' + str(self.preis)
 
     def __repr__(self):
-        return self.name + ' / ' +self.artikelnummer + ' / ' + self.hersteller
+        return self.name + ' / ' + self.artikelnummer + ' / ' + self.hersteller
 
 # Rezensionen
 # Class Comment
