@@ -23,7 +23,9 @@
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
     <option name="TEMPLATE_FOLDERS">
       <list>
-        <option value="$MODULE_DIR$/../SnackShopdjangoProject\templates" />
+        <option value="$MODULE_DIR$/templates" />
+        <option value="$MODULE_DIR$/Useradmin/templates" />
+        <option value="$MODULE_DIR$/Snacks/templates" />
       </list>
     </option>
   </component>

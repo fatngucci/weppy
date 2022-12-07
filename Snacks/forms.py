@@ -20,3 +20,12 @@ class CommentForm(forms.ModelForm):
             'poster': forms.HiddenInput(),
             'snack': forms.HiddenInput(),
         }
+
+
+class SearchForm(forms.ModelForm):
+
+    beschreibung = forms.CharField(required=False)
+
+    class Meta:
+        model = Snack
+        fields = ['name', 'beschreibung']

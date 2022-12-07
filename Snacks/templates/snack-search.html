@@ -1,0 +1,31 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'Snacks/snacks_style.css' %}">
+{% endblock %}
+
+{% block title %}Search snack{% endblock %}
+
+{% block logged_in_content %}
+<h2>Search snack</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Search</button>
+    </form>
+    <br>
+    <br>
+
+    {% if show_results %}
+        <b>Snacks found:</b><br>
+        <ul>
+        {% for snack in snacks_found %}
+            <img src="{{ snack.pictures.url }}" height="150" width="150"><br>
+            <a href="{% url 'snack-detail' snack.id %}"><b>{{  snack.name }}</b></a><br>
+            {{ snack.gewicht }} g <br> {{ snack.preis }} € <br>
+            <br>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

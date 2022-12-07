@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from .forms import SnackForm, CommentForm
+from .forms import SnackForm, CommentForm, SearchForm
 from .models import Snack, Comment
 
 # Create your views here.
@@ -58,6 +58,21 @@ def snacks_delete(request, **kwargs):
         return redirect('snack-list')
 
     return render(request, 'snack-delete.html', context)
+
+def snack_search(request):
+    if request.method == 'POST':
+        search_string_name = request.POST['name']
+        snacks_found = Snack.objets.filter(name__contains=search_string_name)
+
+        search_string_beschreibung = request.POST['beschreibung']
+        if search_string_beschreibung:
+            snacks_found = snacks_found.filter(beschreibung__contains=search_string_beschreibung)
+
+        form = SearchForm()
+        context = {'form': form,
+                   'snacks_found': snacks_found,
+                   'show_results': True}
+        return render(request, 'snack-search.html', context)
 
 def vote(request, pk: str, up_or_down: str):
     comment = Comment.objects.get(id=int(pk))

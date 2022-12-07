@@ -7,4 +7,5 @@ urlpatterns = [
     path('comment/<int:pk>/vote/<str:up_or_down>/', views.vote, name='comment-vote'),
     path('show/<int:pk>/delete', views.snacks_delete, name='snack-delete'),
     path('add/', views.snacks_create, name='snack-create'),
+    path('search/', views.snack_search, name='snack-search'),
 ]
