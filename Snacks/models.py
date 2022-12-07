@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.conf import settings
 
@@ -30,7 +31,11 @@ class Snack(models.Model):
 
 # Rezensionen
 class Comment(models.Model):
+    STERN_BEWERTUNG = [
+        ('1','1'),('2','2'),('3','3'),('4','4'),('5','5'),
+    ]
     text = models.TextField(max_length=500)
+    sternbewertung = models.CharField(max_length=1,choices=STERN_BEWERTUNG, default='5')
     poster = models.ForeignKey(settings.AUTH_USER_MODEL,
                                on_delete=models.CASCADE,
                                related_name='Poster',
@@ -109,4 +114,9 @@ class Vote(models.Model):
 
     def __str__(self):
         return self.up_or_down + ' on ' + self.comment.__str__() + ' by ' + self.voter.username
+
+
+
+    # Sources
+    # https://stackoverflow.com/questions/42425933/how-do-i-set-a-default-max-and-min-value-for-an-integerfield-django
 

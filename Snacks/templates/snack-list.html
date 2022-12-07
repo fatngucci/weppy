@@ -8,6 +8,17 @@
 {% block title %}Snack list{% endblock %}
 
 {% block content %}
+
+    <h2>Search snack</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Search</button>
+    </form>
+    <br>
+    <br>
+
+
     <h2>Snack list</h2>
     <ul>
         {% for snack in all_the_snacks %}

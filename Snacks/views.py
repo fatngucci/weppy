@@ -6,7 +6,9 @@ from .models import Snack, Comment
 
 def snacks_list(request):
     all_the_snacks = Snack.objects.all()
-    context = {'all_the_snacks': all_the_snacks}
+    form = SearchForm()
+    context = {'all_the_snacks': all_the_snacks,
+               'form': form}
     return render(request, 'snack-list.html', context)
 
 def snacks_detail(request, **kwargs):
@@ -32,7 +34,9 @@ def snacks_detail(request, **kwargs):
 
 def snacks_create(request):
     if request.method == 'POST':
-        form = SnackForm(request.POST)
+        #form = SnackForm(request.POST)
+        form = SnackForm(request.POST, request.FILES)
+        print(request.POST)
         form.instance.hersteller = request.user
         if form.is_valid():
             form.save()

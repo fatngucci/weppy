@@ -8,14 +8,12 @@
 {% block title %}Search snack{% endblock %}
 
 {% block logged_in_content %}
-<h2>Search snack</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Search</button>
-    </form>
-    <br>
-    <br>
+    <h2>Search snack</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Search</button>
+        </form><br><br>
 
     {% if show_results %}
         <b>Snacks found:</b><br>

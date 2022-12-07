@@ -46,6 +46,9 @@
 
     {% for comment in comments_for_that_one_snack %}
         <b>{{ comment.poster.username }} on {{ comment.timestamp }}</b><br>
+        {% for star in comment.sternbewertung %}
+            <img src="{% static 'Snacks/staryellow.png' %}" height="25", width="25">
+        {% endfor %}<br>
         {{ comment.text }}<br>
 
         <span>{{ comment.get_upvotes_count }}</span>

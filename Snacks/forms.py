@@ -17,6 +17,7 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ['text']
         widgets = {
+            'sternbewertung': forms.Select(choices=Comment.STERN_BEWERTUNG),
             'poster': forms.HiddenInput(),
             'snack': forms.HiddenInput(),
         }
