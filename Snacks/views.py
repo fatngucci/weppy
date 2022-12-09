@@ -4,14 +4,27 @@ from .models import Snack, Comment
 
 # Create your views here.
 
-def snacks_list(request):
+def snack_list(request):
+    if request.method == 'POST':
+        search_string_name = request.POST['name']
+        snacks_found = Snack.objects.filter(name__contains=search_string_name)
+
+        search_string_beschreibung = request.POST['beschreibung']
+        if search_string_beschreibung:
+            snacks_found = snacks_found.filter(beschreibung__contains=search_string_beschreibung)
+
+        form = SearchForm()
+        context = {'form': form,
+                   'snacks_found': snacks_found,
+                   'show_results': True}
+        return render(request, 'snack-search.html', context)
     all_the_snacks = Snack.objects.all()
     form = SearchForm()
     context = {'all_the_snacks': all_the_snacks,
                'form': form}
     return render(request, 'snack-list.html', context)
 
-def snacks_detail(request, **kwargs):
+def snack_detail(request, **kwargs):
     snack_id = kwargs['pk']
     that_one_snack = Snack.objects.get(id=snack_id)
 
@@ -32,11 +45,10 @@ def snacks_detail(request, **kwargs):
 
     return render(request, 'snack-detail.html', context)
 
-def snacks_create(request):
+def snack_create(request):
     if request.method == 'POST':
         #form = SnackForm(request.POST)
         form = SnackForm(request.POST, request.FILES)
-        print(request.POST)
         form.instance.hersteller = request.user
         if form.is_valid():
             form.save()
@@ -50,7 +62,7 @@ def snacks_create(request):
         context = {'form': form}
         return render(request, 'snack-create.html', context)
 
-def snacks_delete(request, **kwargs):
+def snack_delete(request, **kwargs):
     snack_id = kwargs['pk']
     to_be_deleted = Snack.objects.get(id=snack_id)
     context = {'that_one_snack': to_be_deleted}
@@ -66,7 +78,7 @@ def snacks_delete(request, **kwargs):
 def snack_search(request):
     if request.method == 'POST':
         search_string_name = request.POST['name']
-        snacks_found = Snack.objets.filter(name__contains=search_string_name)
+        snacks_found = Snack.objects.filter(name__contains=search_string_name)
 
         search_string_beschreibung = request.POST['beschreibung']
         if search_string_beschreibung:
@@ -76,6 +88,11 @@ def snack_search(request):
         context = {'form': form,
                    'snacks_found': snacks_found,
                    'show_results': True}
+        return render(request, 'snack-search.html', context)
+    else:
+        form = SearchForm()
+        context = {'form': form,
+                   'show_results': False}
         return render(request, 'snack-search.html', context)
 
 def vote(request, pk: str, up_or_down: str):

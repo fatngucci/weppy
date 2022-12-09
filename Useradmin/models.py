@@ -12,16 +12,30 @@ def get_date_20_years_ago():
 
 
 class MyUser(AbstractUser):
+    USER_TYPES = [
+        ('SU', 'superuser'),
+        ('CS', 'customer service'),
+        ('CU', 'customer'),
+    ]
     date_of_birth = models.DateField(default=get_date_20_years_ago())  # Default is 20 years old
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
     some_file = models.FileField(upload_to='uploaded_files/', blank=True, null=True)
-    is_a_cat = models.BooleanField(default=False)
+    type = models.CharField(max_length=2,
+                            choices=USER_TYPES,
+                            default='CU')
 
-    def execute_after_login(self):
-        if 'Cat' in self.first_name or 'cat' in self.first_name \
-                or 'Cat' in self.last_name or 'cat' in self.last_name:
-            self.is_a_cat = True
-        self.save()
+    def is_superuser_or_customer_service(self):
+        if self.type == 'SU' or self.type == 'CS':
+            return True
+        else:
+            return False
+
+    def is_superuser_or_staff(self):
+        return self.is_superuser or self.is_staff
+
+    def can_delete(self):
+        #return self.is_superuser_or_customer_service()
+        return self.is_superuser_or_staff()
 
     def has_birthday_today(self):
         return_boolean = False

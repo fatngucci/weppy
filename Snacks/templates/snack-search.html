@@ -19,7 +19,7 @@
         <b>Snacks found:</b><br>
         <ul>
         {% for snack in snacks_found %}
-            <img src="{{ snack.pictures.url }}" height="150" width="150"><br>
+            <img src="{{ snack.bilder.url }}" height="150" width="150"><br>
             <a href="{% url 'snack-detail' snack.id %}"><b>{{  snack.name }}</b></a><br>
             {{ snack.gewicht }} g <br> {{ snack.preis }} € <br>
             <br>

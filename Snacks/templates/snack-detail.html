@@ -11,7 +11,7 @@
 <h2>Snack detail</h2>
 
     <table>
-        <img src="{{ that_one_snack.pictures.url }}" height="350" width="350"><br>
+        <img src="{{ that_one_snack.bilder.url }}" height="350" width="350"><br>
         <tr>
             <td><b>Name:</b></td>
             <td>{{ that_one_snack.name }}<br></td>
@@ -40,6 +40,11 @@
             <td><b>Erstellungs-Zeitstempel:</b></td>
             <td>{{ that_one_snack.erstellungs_zeitstempel }}</td>
         </tr>
+        <tr>
+            <td><b>Produktinfo:</b></td>
+            <td><a href="{{ that_one_snack.produkt_info.url }}">{{ that_one_snack.produkt_info.name }}</a></td>
+        </tr>
+
     </table>
 
     <br><br>

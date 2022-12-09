@@ -1,0 +1,30 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block title %}Snack delete{% endblock %}
+
+{% block logged_in_content %}
+<h2>Snack delete</h2>
+    {% if not can_delete %}
+        You are not authorized to delete snacks.<br><br>
+    {% endif %}
+
+    {% for snack in all_the_snacks %}
+        <img src="{{ snack.bilder.url }}" height="150" width="150"><br>
+        <a href="{% url 'snack-detail' snack.id %}"><b>{{  snack.name }}</b></a><br>
+        {{ snack.gewicht }} g <br> {{ snack.preis }} € <br>
+        <br>
+
+        {% if can_delete %}
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" id="snack_id" name="snack_id" value="{{ snack.id }}">
+                <button type="submit" name="delete">Delete</button>
+            </form>
+        {% endif %}
+
+        <br>
+    {% endfor %}
+    <br>
+
+{% endblock %}
