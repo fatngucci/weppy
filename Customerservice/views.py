@@ -10,15 +10,17 @@ from Snacks.models import Snack
 def snack_edit_view(request, pk: str):
     snack_id = pk
     if request.method == 'POST':
-        form = SnackEditForm(request.POST)
+        if 'cancel' in request.POST:
+            return redirect('snack-manage')
+        form = SnackEditForm(request.POST, request.FILES)
         if form.is_valid():
             snack = Snack.objects.get(id=snack_id)
             new_pic = form.cleaned_data['bilder']
             new_file = form.cleaned_data['produkt_info']
             snack.bilder = new_pic
-            snack.file = new_file
+            snack.produkt_info = new_file
             snack.save()
-        return redirect('snack-delete')
+        return redirect('snack-manage')
     else:
         can_delete = False
         myuser = request.user
@@ -30,21 +32,26 @@ def snack_edit_view(request, pk: str):
                    'can_delete': can_delete,
                    'snack': snack,
                    }
-        return render(request, 'snack-edit.html')
+        return render(request, 'snack-edit.html', context)
 
 
-def snack_delete_view(request, pk: str):
-    snack_id = pk
-    snack = Snack.objects.get(id=snack_id)
+def snack_manage_view(request):
+    all_the_snacks = Snack.objects.all()
     can_delete = False
     myuser = request.user
     if not myuser.is_anonymous:
         can_delete = myuser.can_delete()
-    context = {'snack': snack}
+    context = {
+               'all_the_snacks': all_the_snacks,
+                'can_delete': can_delete}
 
     if request.method == 'POST' and can_delete:
-        snack.delete()
-        return redirect('snack-delete')
+        if 'delete' in request.POST:
+            return redirect('snack-delete', request.POST['snack_id'])
+        elif 'edit' in request.POST:
+            return redirect('snack-edit', request.POST['snack_id'])
+
+    return render(request, 'snack-manage.html', context)
 
 
 

@@ -5,7 +5,7 @@ class SnackEditForm(forms.ModelForm):
 
     class Meta:
         model = Snack
-        fields = ['bilder', 'prdoukt_info']
+        fields = ('bilder', 'produkt_info')
         widgets = {
             'snack_id': forms.HiddenInput(),
         }

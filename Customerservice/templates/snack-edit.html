@@ -46,10 +46,11 @@
 
     </table>
     {% if can_delete %}
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Edit</button>
+            <button type="submit" name="cancel">Cancel</button>
         </form>
     {% else %}
         {{ snack.name }}<br>

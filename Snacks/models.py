@@ -8,7 +8,7 @@ class Snack(models.Model):
     gewicht = models.IntegerField() # z.B. 400g
     beschreibung = models.CharField(max_length=1000, blank=True) # zutaten usw.
     bilder = models.ImageField(upload_to='snack_pictures/', blank=True, null=True, default='snack_pictures/white-background-2.jpg')
-    produkt_info = models.FileField(upload_to='uploaded_files/', blank=True, null=True)
+    produkt_info = models.FileField(upload_to='uploaded_files/', blank=True, null=True, default='uploaded_files/Kalender_2022_2023.pdf')
     artikelnummer = models.CharField(max_length=100)
     hersteller = models.ForeignKey(settings.AUTH_USER_MODEL, # Private User, Firma, usw. muss eigenes Profil haben
                                    on_delete=models.CASCADE,

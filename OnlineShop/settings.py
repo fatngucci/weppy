@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Useradmin.apps.UseradminConfig',
     'Snacks.apps.SnackConfig',
+    'Customerservice.apps.CustomerserviceConfig',
 ]
 
 MIDDLEWARE = [

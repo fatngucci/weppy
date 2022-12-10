@@ -22,7 +22,7 @@ class MyLoginView(LoginView):
     def form_valid(self, form):
         """Security check complete. Log the user in. PERFORM CUSTOM CODE."""
         auth_login(self.request, form.get_user())
-        form.get_user().execute_after_login()  # Custom code
+#        form.get_user().execute_after_login()  # Custom code
         return HttpResponseRedirect(self.get_success_url())
 
 
