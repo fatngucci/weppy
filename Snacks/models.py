@@ -78,6 +78,15 @@ class Comment(models.Model):
     def get_downvotes_count(self):
         return len(self.get_downvotes())
 
+    def get_sterne(self):
+        list = []
+        for x in range(int(self.sternbewertung)):
+            list.append(True)
+            print('x')
+
+        return list
+
+
     def vote(self, user, up_or_down):
         vote = Vote.objects.filter(voter=user,
                                    comment=self

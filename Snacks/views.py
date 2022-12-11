@@ -40,7 +40,8 @@ def snack_detail(request, **kwargs):
     comments = Comment.objects.filter(snack=that_one_snack)
     context = {'that_one_snack': that_one_snack,
                'comments_for_that_one_snack': comments,
-               'comment_form': CommentForm
+               'comment_form': CommentForm,
+               'user': request.user
                }
 
     return render(request, 'snack-detail.html', context)
@@ -101,3 +102,13 @@ def vote(request, pk: str, up_or_down: str):
     comment.vote(voter, up_or_down)
     snack_id = comment.snack.id
     return redirect('snack-detail', pk=snack_id)
+
+def comment_edit(request, pk: str):
+    comment_id = pk
+    comment = Comment.objects.filter(id=comment_id)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            print(form.errors)
