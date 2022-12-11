@@ -1,4 +1,6 @@
+.gitignore
 venv
 manage.py
 .idea/*
 .idea
+*/__pycache__
