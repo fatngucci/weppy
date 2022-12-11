@@ -69,7 +69,8 @@
         {% if comment.poster == user %}
             <a href="{% url 'comment-edit' comment.id %}">Edit</a>
             <a href="{% url 'comment-delete' comment.id %}">Delete</a>
-
+        {% else %}
+            <a>Report</a>
         {% endif %}
         <br>
 
