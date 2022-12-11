@@ -1,10 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'home.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block title %}Comment edit{% endblock %}
+
+{% block logged_in_content %}
+<h2>Comment edit</h2>
+    {% if not can_edit %}
+        You are not authorized to edit comments.<br><br>
+    {% endif %}
+
+    <b style="color: darkgreen">{{ comment.myuser.username }} on {{ comment.timestamp }}</b><br>
+    {% if can_edit %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Edit</button>
+        </form>
+    {% else %}
+        {{ comment.text }}<br>
+    {% endif %}
+{% endblock %}

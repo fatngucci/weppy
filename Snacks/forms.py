@@ -22,6 +22,16 @@ class CommentForm(forms.ModelForm):
             'snack': forms.HiddenInput(),
         }
 
+class CommentEditForm(forms.ModelForm):
+
+    class Meta:
+        model = Comment
+        fields = ['text', 'sternbewertung']
+        widgets = {
+            'sternbewertung': forms.Select(choices=Comment.STERN_BEWERTUNG),
+            'comment_id': forms.HiddenInput()
+        }
+
 
 class SearchForm(forms.ModelForm):
 
