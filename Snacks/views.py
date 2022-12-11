@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from .forms import SnackForm, CommentForm, SearchForm
+from .forms import SnackForm, CommentForm, CommentEditForm, SearchForm
 from .models import Snack, Comment
 
 # Create your views here.
@@ -29,6 +29,7 @@ def snack_detail(request, **kwargs):
     that_one_snack = Snack.objects.get(id=snack_id)
 
     if request.method == 'POST':
+
         form = CommentForm(request.POST)
         form.instance.poster = request.user
         form.instance.snack = that_one_snack
@@ -105,10 +106,32 @@ def vote(request, pk: str, up_or_down: str):
 
 def comment_edit(request, pk: str):
     comment_id = pk
-    comment = Comment.objects.filter(id=comment_id)
+    comment = Comment.objects.filter(id=comment_id).first()
     if request.method == 'POST':
-        form = CommentForm(request.POST)
+        if 'cancel' in request.POST:
+            return redirect('snack-detail', comment.snack.id)
+        form = CommentEditForm(request.POST)
         if form.is_valid():
-            form.save()
-        else:
-            print(form.errors)
+            new_text = form.cleaned_data['text']
+            new_bewertung = form.cleaned_data['sternbewertung']
+            comment.text = new_text
+            comment.sternbewertung = new_bewertung
+            comment.save()
+        return redirect('snack-detail', comment.snack.id)
+    else:
+        can_edit = False
+        myuser = request.user
+        if not myuser.is_anonymous:
+            can_edit = comment.poster == myuser
+        form = CommentEditForm(request.POST or None, instance=comment)
+        context = {'form': form,
+                   'can_edit': can_edit,
+                   'comment': comment,
+                   }
+        return render(request, 'comment-edit.html', context)
+
+def comment_delete(request, pk: str):
+    comment = Comment.objects.get(id=int(pk))
+    comment.delete()
+    snack_id = comment.snack.id
+    return redirect('snack-detail', pk=snack_id)
