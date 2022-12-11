@@ -9,25 +9,27 @@
 
 {% block content %}
 
-    <h2>Search snack</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Search</button>
-    </form>
-    <br>
-    <br>
+    <div class="search">
+        <h2>Search snack</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Search</button>
+        </form>
+    </div>
 
+    <div class="list">
+        <h2>Snack list</h2>
+        <ul class="snacks">
+            {% for snack in all_the_snacks %}
+                <div>
+                    <img id="img{{ snack.id }}" src="{{ snack.bilder.url }}" height="150" width="150">
+                    <a id="a{{ snack.id }}" href="{% url 'snack-detail' snack.id %}"><b>{{  snack.name }}</b></a>
+                    <p id="text{{ snack.id }}">{{ snack.gewicht }} g <br> {{ snack.preis }} € <br> </p>
+                </div>
+            {% endfor %}
+        </ul>
+    </div>
 
-    <h2>Snack list</h2>
-    <ul>
-        {% for snack in all_the_snacks %}
-            <img src="{{ snack.bilder.url }}" height="150" width="150"><br>
-            <a href="{% url 'snack-detail' snack.id %}"><b>{{  snack.name }}</b></a><br>
-            {{ snack.gewicht }} g <br> {{ snack.preis }} € <br>
-            <br>
-        {% endfor %}
-    </ul>
-
-    <a href={% url 'snack-create' %}>Add a new snack</a><br>
+    <a href={% url 'snack-create' %}>Add a new snack</a>
 {% endblock %}
