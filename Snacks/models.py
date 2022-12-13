@@ -82,8 +82,6 @@ class Comment(models.Model):
         list = []
         for x in range(int(self.sternbewertung)):
             list.append(True)
-            print('x')
-
         return list
 
 
