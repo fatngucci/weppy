@@ -49,6 +49,19 @@
 
     <br><br>
 
+    {% if user.is_authenticated %}
+        <br>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" name="cart">Add to shopping cart</button>
+        </form>
+    {% else %}
+        <br><a href="{% url 'login' %}">Login</a> to add to shopping cart
+        <br>
+    {%  endif %}
+
+    <br><br>
+
     {% for comment in comments_for_that_one_snack %}
         <b>{{ comment.poster.username }} on {{ comment.timestamp }}</b><br>
         {% for star in comment.get_sterne %}
@@ -80,7 +93,7 @@
     <form method="POST">
         {% csrf_token %}
         {{ comment_form.as_p }}
-        <button type="submit">Post comment</button>
+        <button type="submit" name="comment">Post comment</button>
     </form>
 
     <br>

@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from .forms import SnackForm, CommentForm, CommentEditForm, SearchForm
 from .models import Snack, Comment
+from Shoppingcart.models import ShoppingCart
 
 # Create your views here.
 
@@ -30,13 +31,18 @@ def snack_detail(request, **kwargs):
 
     if request.method == 'POST':
 
-        form = CommentForm(request.POST)
-        form.instance.poster = request.user
-        form.instance.snack = that_one_snack
-        if form.is_valid():
-            form.save()
-        else:
-            print(form.errors)
+        if 'comment' in request.POST:
+            form = CommentForm(request.POST)
+            form.instance.poster = request.user
+            form.instance.snack = that_one_snack
+            if form.is_valid():
+                form.save()
+            else:
+                print(form.errors)
+
+        elif 'cart' in request.POST:
+            benutzer = request.user
+            ShoppingCart.add_item(benutzer, that_one_snack)
 
     comments = Comment.objects.filter(snack=that_one_snack)
     context = {'that_one_snack': that_one_snack,

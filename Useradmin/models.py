@@ -1,6 +1,7 @@
 from datetime import date, datetime
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from Shoppingcart.models import ShoppingCart
 
 
 def get_date_20_years_ago():
@@ -36,6 +37,16 @@ class MyUser(AbstractUser):
     def can_delete(self):
         #return self.is_superuser_or_customer_service()
         return self.is_superuser_or_staff()
+
+    def count_shopping_cart_items(self):
+        count = 0
+        if self.is_authenticated:
+            shopping_carts = ShoppingCart.objects.filter(benutzer=self)
+            if shopping_carts:
+                shopping_cart = shopping_carts.first()
+                count = shopping_cart.get_number_of_items()
+
+        return count
 
     def has_birthday_today(self):
         return_boolean = False

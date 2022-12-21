@@ -15,7 +15,7 @@ class Snack(models.Model):
                                    related_name='Hersteller',
                                    related_query_name='Hersteller'
                                    )
-    preis = models.FloatField() # in € z.B. 2.50 €
+    preis = models.DecimalField(decimal_places=2, max_digits=10) # in € z.B. 2.50 €
     erstellungs_zeitstempel = models.DateTimeField(auto_now_add=True)
 
     class Meta:
