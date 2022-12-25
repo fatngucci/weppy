@@ -13,7 +13,7 @@
 
 body {
     display: grid;
-    grid-template-columns: 0.2fr 2fr;
+    grid-template-columns: 1fr 1fr;
 }
 
 .list h2{
