@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'Useradmin.apps.UseradminConfig',
     'Snacks.apps.SnackConfig',
     'Customerservice.apps.CustomerserviceConfig',
-    'Shoppingcart.apps.ShoppingcartConfig'
+    'Shoppingcart.apps.ShoppingcartConfig',
+    'bootstrap5'
 ]
 
 MIDDLEWARE = [

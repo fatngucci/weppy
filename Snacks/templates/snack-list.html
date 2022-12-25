@@ -1,5 +1,9 @@
 {% extends 'home.html' %}
+{% load bootstrap5 %}
 {% load static %}
+
+{% bootstrap_css %}
+{% bootstrap_javascript %}
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'Snacks/snack_list_style.css' %}">
@@ -8,15 +12,17 @@
 {% block title %}Snack list{% endblock %}
 
 {% block content %}
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="search">
+            <h2>Search snack</h2>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
 
-    <div class="search">
-        <h2>Search snack</h2>
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Search</button>
-        </form>
-    </div>
 
     <div class="list">
         <h2>Snack list</h2>
