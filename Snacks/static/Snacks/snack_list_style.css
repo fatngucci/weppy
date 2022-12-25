@@ -13,11 +13,29 @@
 
 body {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+    ". banner ."
+    "search snacks cart"
+    ". . add"
+    ;
+    align-items: baseline;
 }
 
 .list h2{
     text-align: center;
+}
+
+.list{
+    grid-area: snacks;
+}
+
+.search{
+    grid-area: search;
+    width: 40%;
+}
+
+.cart{
+    grid-area: cart;
 }
 
 .snacks{
@@ -30,4 +48,8 @@ body {
     display: grid;
     grid-template-rows: repeat(2,auto);
     justify-self: center;
+}
+
+.add{
+    grid-area: add;
 }

@@ -23,7 +23,9 @@
         <ul class="snacks">
             {% for snack in all_the_snacks %}
                 <div>
-                    <img id="img{{ snack.id }}" src="{{ snack.bilder.url }}" height="150" width="150">
+                    <a href="{% url 'snack-detail' snack.id %}">
+                        <img id="img{{ snack.id }}" src="{{ snack.bilder.url }}" height="150" width="150">
+                    </a>
                     <a id="a{{ snack.id }}" href="{% url 'snack-detail' snack.id %}"><b>{{  snack.name }}</b></a>
                     <p id="text{{ snack.id }}">{{ snack.gewicht }} g <br> {{ snack.preis }} € <br> </p>
                 </div>
@@ -31,5 +33,5 @@
         </ul>
     </div>
 
-    <a href={% url 'snack-create' %}>Add a new snack</a>
+    <a class="add" href={% url 'snack-create' %}>Add a new snack</a>
 {% endblock %}
