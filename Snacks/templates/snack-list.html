@@ -1,9 +1,6 @@
 {% extends 'home.html' %}
-{% load bootstrap5 %}
 {% load static %}
-
-{% bootstrap_css %}
-{% bootstrap_javascript %}
+{% load crispy_forms_tags %}
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'Snacks/snack_list_style.css' %}">
@@ -16,7 +13,7 @@
             <h2>Search snack</h2>
             <form method="POST">
                 {% csrf_token %}
-                {{ form.as_p }}
+                {{ form | crispy }}
                 <button type="submit">Search</button>
             </form>
         </div>

@@ -10,6 +10,7 @@
     background: beige;
     line-height: 1.3;
 }
+/*
 body {
     display: grid;
     grid-template-areas:
@@ -53,3 +54,4 @@ body {
 .add{
     grid-area: add;
 }
+*/

@@ -1,5 +1,6 @@
 {% extends 'home.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'Snacks/snacks_style.css' %}">
@@ -11,9 +12,9 @@
     <h2>Add snack</h2>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
+        {% crispy form %}
 
-
-
+        <!--
         <label>Name:</label>
         <input type="text" name="name"><br><br>
 
@@ -35,11 +36,10 @@
         <label>Produktinfo:</label>
         <input type="file" name="produkt_info" accept="application/pdf"><br><br>
 
-
         <br><br>
 
         <button type="submit">Add snack</button>
-
+        -->
 
     </form>
 {% endblock %}
