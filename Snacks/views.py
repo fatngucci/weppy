@@ -92,6 +92,11 @@ def snack_search(request):
         if search_string_beschreibung:
             snacks_found = snacks_found.filter(beschreibung__contains=search_string_beschreibung)
 
+        search_string_bewertung = request.POST['produkt_bewertung']
+        if search_string_bewertung:
+            pb = string_produkt_bewertung
+            snacks_found = snacks_found.filter(produkt_bewertung__c=search_string_bewertung)
+
         form = SearchForm()
         context = {'form': form,
                    'snacks_found': snacks_found,

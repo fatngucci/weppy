@@ -17,6 +17,7 @@ class Snack(models.Model):
                                    )
     preis = models.DecimalField(decimal_places=2, max_digits=10) # in € z.B. 2.50 €
     erstellungs_zeitstempel = models.DateTimeField(auto_now_add=True)
+    produkt_bewertung = models.DecimalField(decimal_places=1, max_digits=10, default=0) # pass auf!
 
     class Meta:
         ordering = ['erstellungs_zeitstempel', 'name']
@@ -29,14 +30,24 @@ class Snack(models.Model):
     def __repr__(self):
         return self.name + ' / ' + self.artikelnummer + ' / ' + self.hersteller
 
+    def get_bewertung(self):
+        comments = Comment.objects.filter(snack=self)
+        bewertung = 0
+        if comments:
+            for c in comments:
+                bewertung += float(c.sternbewertung)
+            bewertung = bewertung / len(comments)
+
+        self.produkt_bewertung = bewertung
+        return self.produkt_bewertung
+
+
 
 # Rezensionen
 class Comment(models.Model):
-    STERN_BEWERTUNG = [
-        ('1','1'),('2','2'),('3','3'),('4','4'),('5','5'),
-    ]
+    STERN_BEWERTUNG = [tuple([x,x]) for x in range(0,6)]
     text = models.TextField(max_length=500)
-    sternbewertung = models.CharField(max_length=1,choices=STERN_BEWERTUNG, default='5')
+    sternbewertung = models.IntegerField(choices=STERN_BEWERTUNG, default=5)
     poster = models.ForeignKey(settings.AUTH_USER_MODEL,
                                on_delete=models.CASCADE,
                                related_name='Poster',
@@ -80,8 +91,11 @@ class Comment(models.Model):
 
     def get_sterne(self):
         list = []
-        for x in range(int(self.sternbewertung)):
+        for x in range(self.sternbewertung):
             list.append(True)
+
+        for y in range(5-self.sternbewertung):
+            list.append(False)
         return list
 
 

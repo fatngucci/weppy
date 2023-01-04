@@ -44,6 +44,10 @@
             <td><b>Produktinfo:</b></td>
             <td><a href="{{ that_one_snack.produkt_info.url }}">{{ that_one_snack.produkt_info.name }}</a></td>
         </tr>
+        <tr>
+            <td><b>Bewertung:</b></td>
+            <td>{{ that_one_snack.get_bewertung }}</td>
+        </tr>
 
     </table>
 
@@ -65,7 +69,11 @@
     {% for comment in comments_for_that_one_snack %}
         <b>{{ comment.poster.username }} on {{ comment.timestamp }}</b><br>
         {% for star in comment.get_sterne %}
-            <img src="{% static 'Snacks/staryellow.png' %}" height="25", width="25">
+            {% if star %}
+                <img src="{% static 'Snacks/staryellow.png' %}" height="25", width="25">
+            {% else %}
+                <img src="{% static 'Snacks/stargrey.png' %}" height="25", width="25">
+            {% endif %}
         {% endfor %}<br>
         {{ comment.text }}<br>
 
