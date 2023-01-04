@@ -38,6 +38,7 @@ body {
 }
 
 .snacks{
+    grid-area: snacks;
     display: grid;
     grid-template-rows: repeat(2,auto);
     grid-template-columns: repeat(4, auto);
