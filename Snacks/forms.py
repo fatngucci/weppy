@@ -19,16 +19,16 @@ class SnackForm(forms.ModelForm):
         self.helper.form_method = 'post'
         self.helper.layout = Layout(
             Row(
-                Column('name', css_class='form-group col-md-3 mb-0'),
-                Column('gewicht', css_class='form-group col-md-3 mb-0'),
-                Column('beschreibung', css_class='form-group col-md-3 mb-0'),
-                Column('artikelnummer', css_class='form-group col-md-3 mb-0'),
-                Column('preis', css_class='form-group col-md-3 mb-0'),
-                Column('bilder', css_class='form-group col-md-3 mb-0'),
-                Column('produkt_info', css_class='form-group col-md-3 mb-0'),
-                css_class='form-row'
+                Column('name', css_class='form-group col-md-3 mb-6'),
+                Column('gewicht', css_class='form-group col-md-3 mb-6'),
+                Column('beschreibung', css_class='form-group col-md-3 mb-6'),
+                Column('artikelnummer', css_class='form-group col-md-3 mb-6'),
+                Column('preis', css_class='form-group col-md-3 mb-6'),
+                Column('bilder', css_class='form-group col-md-3 mb-6'),
+                Column('produkt_info', css_class='form-group col-md-3 mb-6'),
+                css_class='form-row mx-1'
             ),
-            Submit('submit', 'Add new snack')
+            Submit('submit', 'Add new snack', css_class='ml-1')
         )
 
 
@@ -62,3 +62,16 @@ class SearchForm(forms.ModelForm):
     class Meta:
         model = Snack
         fields = ['name', 'beschreibung', 'produkt_bewertung']
+
+    def __int__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.layout(
+            Row(
+                Column('name', css_class='form-group col-md-3 mx-1'),
+                Column('beschreibung', css_class='form-group col-md-3 mx-1'),
+                Column('produkt_bewertung', css_class='form-group col-md-3 mx-1'),
+                css_class='form-row mx-1',
+            )
+        )

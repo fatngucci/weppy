@@ -9,30 +9,37 @@
 {% block title %}Snack list{% endblock %}
 
 {% block content %}
-        <div class="search">
-            <h2>Search snack</h2>
-            <form method="POST">
+    <header>
+        <h1 class="text-center">Snacks'n'Juice</h1>
+    </header>
+    <nav class="col-lg bg-warning p-3 border-bottom border-top">
+        <div class="h-25 row justify-content-end">
+            <div class="w-100"></div>
+            <form method="POST" class="row justify-content-center">
                 {% csrf_token %}
-                {{ form | crispy }}
-                <button type="submit">Search</button>
+                {% crispy form %}
+                <button class="mx-auto" type="submit">Search</button>
             </form>
         </div>
+    </nav>
 
-
-    <div class="list">
-        <h2>Snack list</h2>
-        <ul class="snacks">
-            {% for snack in all_the_snacks %}
-                <div>
-                    <a href="{% url 'snack-detail' snack.id %}">
-                        <img id="img{{ snack.id }}" src="{{ snack.bilder.url }}" height="150" width="150">
-                    </a>
-                    <a id="a{{ snack.id }}" href="{% url 'snack-detail' snack.id %}"><b>{{  snack.name }}</b></a>
-                    <p id="text{{ snack.id }}">{{ snack.gewicht }} g <br> {{ snack.preis }} € <br> </p>
-                </div>
-            {% endfor %}
-        </ul>
-    </div>
-
+        <div class="col-lg">
+            <h2 class="">Snack list</h2>
+            <ul class="row">
+                {% for snack in all_the_snacks %}
+                    <div class="col text-center">
+                        <div class="col align-self-center ">
+                            <a href="{% url 'snack-detail' snack.id %}">
+                                <img id="img{{ snack.id }}" src="{{ snack.bilder.url }}" height="150" width="150">
+                            </a>
+                            <div class="w-100"></div>
+                            <a id="a{{ snack.id }}" href="{% url 'snack-detail' snack.id %}"><b>{{  snack.name }}</b></a>
+                            <div class="w-100"></div>
+                            <p id="text{{ snack.id }}">{{ snack.gewicht }} g <br> {{ snack.preis }} € <br> </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </ul>
+        </div>
     <a class="add" href={% url 'snack-create' %}>Add a new snack</a>
 {% endblock %}
