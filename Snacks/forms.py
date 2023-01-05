@@ -43,6 +43,7 @@ class CommentForm(forms.ModelForm):
             'snack': forms.HiddenInput(),
         }
 
+
 class CommentEditForm(forms.ModelForm):
 
     class Meta:
@@ -52,6 +53,8 @@ class CommentEditForm(forms.ModelForm):
             'sternbewertung': forms.Select(choices=Comment.STERN_BEWERTUNG),
             'comment_id': forms.HiddenInput()
         }
+
+
 
 
 class SearchForm(forms.ModelForm):
