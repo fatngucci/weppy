@@ -8,21 +8,20 @@
 
 {% block content %}
 
-    <nav class="col-lg bg-warning p-3 border-bottom border-top">
+    <nav class="col-lg bg-warning border-bottom border-top">
         <div class="h-25 row justify-content-center">
-            <div class="w-100"></div>
+            <div class="w-100 py-2"></div>
             <form method="POST" class="row justify-content-center ">
                 {% csrf_token %}
                 {% crispy form %}
-                <button class="h-50 p-1 mx-5 rounded align-self-center" type="submit">Search</button>
+                <button class="btn h-50 p-1 mx-5 rounded align-self-center" type="submit">Search</button>
             </form>
         </div>
     </nav>
-
-        <div class="col-12 mt-4 pl-2 pr-5">
-            <ul class="row">
+        <div class="col-12 mt-4">
+            <div class="w-75 row mx-auto">
                 {% for snack in all_the_snacks %}
-                    <div class="col text-center p-5 mx-1 border rounded">
+                    <div class="col text-center py-5 m-1 border rounded">
                         <div class="col align-self-center ">
                             <a href="{% url 'snack-detail' snack.id %}">
                                 <img id="img{{ snack.id }}" src="{{ snack.bilder.url }}" height="150" width="150">
@@ -34,7 +33,7 @@
                         </div>
                     </div>
                 {% endfor %}
-            </ul>
+            </div>
         </div>
-    <a class="" href={% url 'snack-create' %}>Add a new snack</a>
+        <a class="" href={% url 'snack-create' %}>Add a new snack</a>
 {% endblock %}

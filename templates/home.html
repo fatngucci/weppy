@@ -8,9 +8,10 @@
 {% block title %}Homepage Titel{% endblock %}
 
 {% block header %}
-    <div class="row">
-        <h1 class="col-12 col-md-11 py-2 text-center">Snacks'n'Juice</h1>
-        <a class="col-1 col-md-1" style="float: right;" href="{% url 'shopping-cart-show' %}">
+    <div class="w-100 d-flex justify-content-between">
+        <div></div>
+        <h1 class="text-center py-2 mx-auto">Snacks'n'Juice</h1>
+        <a class="" style="float: right;" href="{% url 'shopping-cart-show' %}">
             Shopping Cart (
             {% if user.is_authenticated %}
                 {{ request.user.count_shopping_cart_items }}
