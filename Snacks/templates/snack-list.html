@@ -6,28 +6,23 @@
     <link rel="stylesheet" type="text/css" href="{% static 'Snacks/snack_list_style.css' %}">
 {% endblock %}
 
-{% block title %}Snack list{% endblock %}
-
 {% block content %}
-    <header>
-        <h1 class="text-center">Snacks'n'Juice</h1>
-    </header>
+
     <nav class="col-lg bg-warning p-3 border-bottom border-top">
-        <div class="h-25 row justify-content-end">
+        <div class="h-25 row justify-content-center">
             <div class="w-100"></div>
-            <form method="POST" class="row justify-content-center">
+            <form method="POST" class="row justify-content-center ">
                 {% csrf_token %}
                 {% crispy form %}
-                <button class="mx-auto" type="submit">Search</button>
+                <button class="h-50 p-1 mx-5 rounded align-self-center" type="submit">Search</button>
             </form>
         </div>
     </nav>
 
-        <div class="col-lg">
-            <h2 class="">Snack list</h2>
+        <div class="col-12 mt-4 pl-2 pr-5">
             <ul class="row">
                 {% for snack in all_the_snacks %}
-                    <div class="col text-center">
+                    <div class="col text-center p-5 mx-1 border rounded">
                         <div class="col align-self-center ">
                             <a href="{% url 'snack-detail' snack.id %}">
                                 <img id="img{{ snack.id }}" src="{{ snack.bilder.url }}" height="150" width="150">
@@ -41,5 +36,5 @@
                 {% endfor %}
             </ul>
         </div>
-    <a class="add" href={% url 'snack-create' %}>Add a new snack</a>
+    <a class="" href={% url 'snack-create' %}>Add a new snack</a>
 {% endblock %}
