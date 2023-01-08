@@ -8,10 +8,10 @@
 {% block title %}Homepage Titel{% endblock %}
 
 {% block header %}
-    <div class="w-100 d-flex justify-content-between">
+    <div class="mw-100 d-flex justify-content-between">
         <div></div>
         <h1 class="text-center py-2 mx-auto">Snacks'n'Juice</h1>
-        <a class="" style="float: right;" href="{% url 'shopping-cart-show' %}">
+        <a class="position-absolute" style="float: right;" href="{% url 'shopping-cart-show' %}">
             Shopping Cart (
             {% if user.is_authenticated %}
                 {{ request.user.count_shopping_cart_items }}
