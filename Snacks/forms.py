@@ -72,9 +72,12 @@ class SearchForm(forms.ModelForm):
         self.helper.form_method = 'post'
         self.helper.layout = Layout(
             Row(
-                Column('name', css_class='form-group ml-1'),
-                Column('beschreibung', css_class='form-group ml-1'),
-                Column('produkt_bewertung', css_class='form-group ml-1'),
+                Column('name', css_class='form-group mx-5'),
+                Column('beschreibung', css_class='form-group mx-1'),
+                Column('produkt_bewertung', css_class='form-group mx-1'),
                 css_class='form-row'
+            ),
+            Div(
+                Submit('submit', 'Search', css_class='btn mx-auto')
             )
         )
