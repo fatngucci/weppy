@@ -1,3 +1,5 @@
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Row, Column, Submit, Div
 from django import forms
 from .models import Snack, Comment
 
@@ -11,6 +13,25 @@ class SnackForm(forms.ModelForm):
             'hersteller': forms.HiddenInput(),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.layout = Layout(
+            Column('name', css_class='form-group col-md-3 mx-auto'),
+            Column('gewicht', css_class='form-group col-md-3 mx-auto'),
+            Column('beschreibung', css_class='form-group col-md-3 mx-auto'),
+            Column('artikelnummer', css_class='form-group col-md-3 mx-auto'),
+            Column('preis', css_class='form-group col-md-3 mx-auto'),
+            Column('bilder', css_class='form-group col-md-3 mx-auto'),
+            Column('produkt_info', css_class='form-group col-md-3 mx-auto'),
+            Div(
+                Submit('submit', 'Add new snack', css_class='btn mx-auto'),
+                css_class='text-center'
+            )
+        )
+
+
 class CommentForm(forms.ModelForm):
 
     class Meta:
@@ -21,6 +42,7 @@ class CommentForm(forms.ModelForm):
             'poster': forms.HiddenInput(),
             'snack': forms.HiddenInput(),
         }
+
 
 class CommentEditForm(forms.ModelForm):
 
@@ -33,14 +55,33 @@ class CommentEditForm(forms.ModelForm):
         }
 
 
+
+
 class SearchForm(forms.ModelForm):
 
-    beschreibung = forms.CharField(required=False)
-    produkt_bewertung = forms.DecimalField(required=False)
+    #name = forms.CharField()
+    #beschreibung = forms.CharField(required=False)
+    #produkt_bewertung = forms.DecimalField(required=False)
 
     class Meta:
         model = Snack
         fields = ['name', 'beschreibung', 'produkt_bewertung']
-       # widgets = {
-        #    'bewertung': forms.Select(choices=Comment.STERN_BEWERTUNG),
-       # }
+
+        widgets = {
+            'produkt_bewertung': forms.Select(choices=Comment.STERN_BEWERTUNG),
+        }
+
+
+    def __int__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.layout = Layout(
+            Row(
+                Column('name', css_class='form-group ml-1'),
+                Column('beschreibung', css_class='form-group ml-1'),
+                Column('produkt_bewertung', css_class='form-group ml-1'),
+                css_class='form-row'
+            )
+        )
+

@@ -87,17 +87,16 @@ def snack_delete(request, **kwargs):
 def snack_search(request):
     if request.method == 'POST':
         search_string_name = request.POST['name']
-        snacks_found = Snack.objects.filter(snack__name__contains=search_string_name)
+        snacks_found = Snack.objects.filter(name__contains=search_string_name)
 
         search_string_beschreibung = request.POST['beschreibung']
         if search_string_beschreibung:
-            snacks_found = snacks_found.filter(snack__beschreibung__contains=search_string_beschreibung)
-            snacks_found = snacks_found.filter(snack__produkt_bewertung__contains="100")
+            snacks_found = snacks_found.filter(beschreibung__contains=search_string_beschreibung)
 
         search_bewertung = request.POST['produkt_bewertung']
         if search_bewertung:
-            print(search_bewertung)
             search_bewertung_as_decimal = Decimal(search_bewertung)
+            print(search_bewertung_as_decimal)
             snacks_found = snacks_found.filter(produkt_bewertung__gte=search_bewertung_as_decimal)
 
         form = SearchForm()

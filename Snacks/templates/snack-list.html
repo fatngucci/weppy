@@ -1,43 +1,43 @@
 {% extends 'home.html' %}
 {% load static %}
 
+{% load crispy_forms_tags %}
+
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'Snacks/snack_list_style.css' %}">
 {% endblock %}
 
-{% block title %}Snack list{% endblock %}
-
 {% block content %}
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="search">
-            <h2>Search snack</h2>
-            <form method="POST">
+
+    <nav class="col-lg bg-warning border-bottom border-top">
+        <div class="h-25 row justify-content-center">
+            <div class="w-100 py-2"></div>
+            <form method="POST" class="row justify-content-center ">
                 {% csrf_token %}
-                <label>Name:</label>
-                <input type="text" name="name"><br><br>
-                <input hidden type="text" name="beschreibung" value="">
-                <input hidden type="text" name="produkt_bewertung" value="">
-                <button type="submit">Search</button>
+
+                {% crispy form %}
+                <button class="btn h-50 p-1 mx-5 rounded align-self-center" type="submit">Search</button>
+
             </form>
         </div>
     </nav>
-
-
-    <div class="list">
-        <h2>Snack list</h2>
-        <ul class="snacks">
-            {% for snack in all_the_snacks %}
-                <div>
-                    <a href="{% url 'snack-detail' snack.id %}">
-                        <img id="img{{ snack.id }}" src="{{ snack.bilder.url }}" height="150" width="150">
-                    </a>
-                    <a id="a{{ snack.id }}" href="{% url 'snack-detail' snack.id %}"><b>{{  snack.name }}</b></a>
-                    <p id="text{{ snack.id }}">{{ snack.gewicht }} g <br> {{ snack.preis }} € <br> </p>
-                </div>
-            {% endfor %}
-        </ul>
-    </div>
-
-    <a class="add" href={% url 'snack-create' %}>Add a new snack</a>
+        <div class="col-12 mt-4">
+            <div class="w-75 row mx-auto">
+                {% for snack in all_the_snacks %}
+                    <div class="col text-center py-5 m-1 border rounded">
+                        <div class="col align-self-center ">
+                            <a href="{% url 'snack-detail' snack.id %}">
+                                <img id="img{{ snack.id }}" src="{{ snack.bilder.url }}" height="150" width="150">
+                            </a>
+                            <div class="w-100"></div>
+                            <a id="a{{ snack.id }}" href="{% url 'snack-detail' snack.id %}"><b>{{  snack.name }}</b></a>
+                            <div class="w-100"></div>
+                            <p id="text{{ snack.id }}">{{ snack.gewicht }} g <br> {{ snack.preis }} € <br> </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <a class="" href={% url 'snack-create' %}>Add a new snack</a>
 {% endblock %}
