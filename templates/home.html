@@ -11,7 +11,8 @@
     <div class="mw-100 d-flex justify-content-between">
         <div></div>
         <h1 class="text-center py-2 mx-auto">Snacks'n'Juice</h1>
-        <a class="position-absolute" style="float: right;" href="{% url 'shopping-cart-show' %}">
+
+        <a class="position-fixed" style="right: 0.25em; top: 0.25em;" href="{% url 'shopping-cart-show' %}">
             Shopping Cart (
             {% if user.is_authenticated %}
                 {{ request.user.count_shopping_cart_items }}
