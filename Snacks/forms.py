@@ -41,3 +41,6 @@ class SearchForm(forms.ModelForm):
     class Meta:
         model = Snack
         fields = ['name', 'beschreibung', 'produkt_bewertung']
+       # widgets = {
+        #    'bewertung': forms.Select(choices=Comment.STERN_BEWERTUNG),
+       # }

@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from .forms import SnackForm, CommentForm, CommentEditForm, SearchForm
 from .models import Snack, Comment
 from Shoppingcart.models import ShoppingCart
+from decimal import Decimal
 
 # Create your views here.
 
@@ -86,16 +87,18 @@ def snack_delete(request, **kwargs):
 def snack_search(request):
     if request.method == 'POST':
         search_string_name = request.POST['name']
-        snacks_found = Snack.objects.filter(name__contains=search_string_name)
+        snacks_found = Snack.objects.filter(snack__name__contains=search_string_name)
 
         search_string_beschreibung = request.POST['beschreibung']
         if search_string_beschreibung:
-            snacks_found = snacks_found.filter(beschreibung__contains=search_string_beschreibung)
+            snacks_found = snacks_found.filter(snack__beschreibung__contains=search_string_beschreibung)
+            snacks_found = snacks_found.filter(snack__produkt_bewertung__contains="100")
 
-        search_string_bewertung = request.POST['produkt_bewertung']
-        if search_string_bewertung:
-            pb = string_produkt_bewertung
-            snacks_found = snacks_found.filter(produkt_bewertung__c=search_string_bewertung)
+        search_bewertung = request.POST['produkt_bewertung']
+        if search_bewertung:
+            print(search_bewertung)
+            search_bewertung_as_decimal = Decimal(search_bewertung)
+            snacks_found = snacks_found.filter(produkt_bewertung__gte=search_bewertung_as_decimal)
 
         form = SearchForm()
         context = {'form': form,
@@ -112,6 +115,13 @@ def vote(request, pk: str, up_or_down: str):
     comment = Comment.objects.get(id=int(pk))
     voter = request.user
     comment.vote(voter, up_or_down)
+    snack_id = comment.snack.id
+    return redirect('snack-detail', pk=snack_id)
+
+def report(request, pk: str):
+    comment = Comment.objects.get(id=int(pk))
+    subject = request.user
+    comment.report(subject)
     snack_id = comment.snack.id
     return redirect('snack-detail', pk=snack_id)
 

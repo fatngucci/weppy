@@ -89,6 +89,10 @@ class Comment(models.Model):
     def get_downvotes_count(self):
         return len(self.get_downvotes())
 
+    def get_reports_count(self):
+        reports = Report.objects.filter(comment=self)
+        return len(reports)
+
     def get_sterne(self):
         list = []
         for x in range(self.sternbewertung):
@@ -117,6 +121,16 @@ class Comment(models.Model):
                                    comment=self
                                    )
 
+    def report(self, user):
+        report = Report.objects.filter(subject=user,
+                                       comment=self)
+        if(report):
+            report.delete()
+
+        report = Report.objects.create(subject=user,
+                                       comment=self
+                                       )
+
 # Vote
 class Vote(models.Model):
     VOTE_TYPES = [
@@ -139,6 +153,16 @@ class Vote(models.Model):
 
 
 
+class Report(models.Model):
+    subject = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+                                related_name='Subject',
+                                related_query_name='Subjects'
+                                )
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.comment.get_comment_prefix() + ' reported by ' + self.subject.name + ' on ' + self.timestamp
     # Sources
     # https://stackoverflow.com/questions/42425933/how-do-i-set-a-default-max-and-min-value-for-an-integerfield-django
 

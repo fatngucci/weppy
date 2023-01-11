@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'Snacks.apps.SnackConfig',
     'Customerservice.apps.CustomerserviceConfig',
     'Shoppingcart.apps.ShoppingcartConfig',
-    'bootstrap5'
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +135,5 @@ MEDIA_ROOT = BASE_DIR / 'media/'
 MEDIA_URL = '/media/'
 
 AUTH_USER_MODEL = 'Useradmin.MyUser'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
