@@ -1,4 +1,6 @@
 from django.shortcuts import redirect, render
+
+from Shoppingcart.forms import AddForm
 from .forms import SnackForm, CommentForm, CommentEditForm, SearchForm
 from .models import Snack, Comment
 from Shoppingcart.models import ShoppingCart
@@ -43,12 +45,15 @@ def snack_detail(request, **kwargs):
 
         elif 'cart' in request.POST:
             benutzer = request.user
-            ShoppingCart.add_item(benutzer, that_one_snack)
+            form = AddForm(request.POST)
+            if form.is_valid():
+                ShoppingCart.add_item(benutzer, that_one_snack, form.cleaned_data['menge'])
 
     comments = Comment.objects.filter(snack=that_one_snack)
     context = {'that_one_snack': that_one_snack,
                'comments_for_that_one_snack': comments,
                'comment_form': CommentForm,
+               'add_form': AddForm,
                'user': request.user
                }
 

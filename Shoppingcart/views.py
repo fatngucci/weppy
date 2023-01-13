@@ -1,7 +1,7 @@
 from decimal import Decimal
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
-from .forms import PaymentForm
+from .forms import PaymentForm, AddForm
 from .models import ShoppingCart, ShoppingCartItem
 
 # Create your views here.
@@ -17,6 +17,27 @@ def show_shopping_cart(request):
 
         elif 'pay' in request.POST:
             return redirect('shopping-cart-pay')
+
+        elif 'plus' in request.POST:
+            produkt_id_as_int = int(request.POST['produkt_id'])
+            print(produkt_id_as_int)
+            the_snack = ShoppingCartItem.objects.get(id=produkt_id_as_int)
+            print(the_snack)
+            if the_snack:
+                the_snack.add()
+                print(+1)
+            return redirect('shopping-cart-show')
+
+        elif 'minus' in request.POST:
+            produkt_id_as_int = int(request.POST['produkt_id'])
+            print(produkt_id_as_int)
+            the_snack = ShoppingCartItem.objects.get(id=produkt_id_as_int)
+            print(the_snack)
+            if the_snack:
+                the_snack.remove()
+                print(-1)
+            return redirect('shopping-cart-show')
+
 
     else:
          shopping_cart_is_empty = True
@@ -34,7 +55,8 @@ def show_shopping_cart(request):
 
          context = {'shopping_cart_is_empty': shopping_cart_is_empty,
                     'shopping_cart_items': shopping_cart_items,
-                    'total': total}
+                    'total': total,
+                    }
          return render(request, 'shopping-cart.html', context)
 
 @login_required(login_url='/useradmin/login/')

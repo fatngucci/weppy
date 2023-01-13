@@ -6,6 +6,19 @@ from Snacks.models import Snack, Comment
 
 # Create your views here.
 
+
+@staff_member_required(login_url='/useradmin/login/')
+def menu_view(request):
+    can_delete = False
+    myuser = request.user
+    if not myuser.is_anonymous:
+        can_delete = myuser.can_delete()
+    context = {
+                'can_delete': can_delete,
+                }
+    return render(request, 'menu.html', context)
+
+
 @staff_member_required(login_url='/useradmin/login/')
 def snack_edit_view(request, pk: str):
     snack_id = pk
@@ -54,10 +67,14 @@ def snack_manage_view(request):
     return render(request, 'snack-manage.html', context)
 
 
-def comment_edit(request, pk: str):
+def comment_edit_view(request, pk: str):
+
     comment_id = pk
+    myuser = request.user
     comment = Comment.objects.get(id=comment_id)
     if request.method == 'POST':
+        if 'cancel' in request.POST:
+            return redirect('comment-manage')
         form = CommentEditForm(request.POST)
         if form.is_valid():
             new_text = form.cleaned_data['text']
@@ -67,16 +84,35 @@ def comment_edit(request, pk: str):
             comment.save()
 
     else:
+        can_delete = False
         is_own_comment = False
-        myuser = request.user
         if not myuser.is_anonymous:
+            can_delete = myuser.can_delete()
             is_own_comment = (comment.poster == myuser)
         form = CommentEditForm(request.POST or None, instance=comment)
         context = {'form': form,
                    'is_own_comment': is_own_comment,
                    'comment': comment,
+                   'can_delete': can_delete,
                    }
-        return render(request, 'comment-edit.html', context)
+        return render(request, 'comment-edit-cs.html', context)
 
+def comment_manage_view(request):
+    all_the_comments = Comment.objects.all()
+    can_delete = False
+    myuser = request.user
+    if not myuser.is_anonymous:
+        can_delete = myuser.can_delete()
+    context = {
+        'all_the_comments': all_the_comments,
+        'can_delete': can_delete}
+
+    if request.method == 'POST' and can_delete:
+        if 'delete' in request.POST:
+            return redirect('snack-delete', request.POST['comment_id'])
+        elif 'edit' in request.POST:
+            return redirect('comment-edit-cs', request.POST['comment_id'])
+
+    return render(request, 'comment-manage.html', context)
 
 

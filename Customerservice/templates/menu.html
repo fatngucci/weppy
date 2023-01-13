@@ -1,0 +1,15 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block title %}Customer Service{% endblock %}
+
+{% block logged_in_content %}
+<h2>Customer Service</h2>
+    {% if not can_delete %}
+        You are not authorized.<br><br>
+    {% else %}
+        <p><a href="{% url 'snack-manage' %}">Show me the snacks</a></p>
+        <p><a href="{% url 'comment-manage' %}">Show me the comments</a></p>
+        {{ comment.text }}<br>
+    {% endif %}
+{% endblock %}

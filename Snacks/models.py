@@ -107,7 +107,7 @@ class Comment(models.Model):
         vote = Vote.objects.filter(voter=user,
                                    comment=self
                                    )
-        if(vote):
+        if vote:
             up_or_down_before = vote.last().get_up_or_down_display()
             vote.delete()
             if up_or_down_before == up_or_down:
@@ -124,8 +124,9 @@ class Comment(models.Model):
     def report(self, user):
         report = Report.objects.filter(subject=user,
                                        comment=self)
-        if(report):
-            report.delete()
+        if report:
+            #already reported
+            return
 
         report = Report.objects.create(subject=user,
                                        comment=self
@@ -162,7 +163,9 @@ class Report(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.comment.get_comment_prefix() + ' reported by ' + self.subject.name + ' on ' + self.timestamp
+        return self.comment.get_comment_prefix() + ' / reported by ' + self.subject.username + ' on ' + str(self.timestamp)
+
+
     # Sources
     # https://stackoverflow.com/questions/42425933/how-do-i-set-a-default-max-and-min-value-for-an-integerfield-django
 

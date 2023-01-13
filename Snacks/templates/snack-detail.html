@@ -77,6 +77,7 @@
                 {% if user.is_authenticated %}
                     <form method="POST">
                         {% csrf_token %}
+                        {{ add_form.as_p }}
                         <button class="btn" type="submit" name="cart">Add to shopping cart</button>
                     </form>
                 {% else %}
@@ -114,7 +115,7 @@
                         <a href="{% url 'comment-edit' comment.id %}">Edit</a>
                         <a href="{% url 'comment-delete' comment.id %}">Delete</a>
                     {% else %}
-                        <a>Report</a>
+                        <a href="{% url 'comment-report' comment.id %}">Report</a>
                     {% endif %}
                     <br>
 
