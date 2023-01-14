@@ -1,0 +1,25 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block title %}Comment edit{% endblock %}
+
+{% block logged_in_content %}
+<h2>Comment edit</h2>
+    {% if not can_delete %}
+        You are not authorized to edit comments.<br><br>
+    {% endif %}
+
+        <table>
+        <img src="{{ comment.snack.bilder.url }}" height="350" width="350"><br>
+    </table>
+    {% if can_delete %}
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Edit</button>
+            <button type="submit" name="cancel">Cancel</button>
+        </form>
+    {% else %}
+        {{ comment.text }}<br>
+    {% endif %}
+{% endblock %}

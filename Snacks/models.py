@@ -89,6 +89,10 @@ class Comment(models.Model):
     def get_downvotes_count(self):
         return len(self.get_downvotes())
 
+    def get_reports_count(self):
+        reports = Report.objects.filter(comment=self)
+        return len(reports)
+
     def get_sterne(self):
         list = []
         for x in range(self.sternbewertung):
@@ -103,7 +107,7 @@ class Comment(models.Model):
         vote = Vote.objects.filter(voter=user,
                                    comment=self
                                    )
-        if(vote):
+        if vote:
             up_or_down_before = vote.last().get_up_or_down_display()
             vote.delete()
             if up_or_down_before == up_or_down:
@@ -116,6 +120,17 @@ class Comment(models.Model):
                                    voter=user,
                                    comment=self
                                    )
+
+    def report(self, user):
+        report = Report.objects.filter(subject=user,
+                                       comment=self)
+        if report:
+            #already reported
+            return
+
+        report = Report.objects.create(subject=user,
+                                       comment=self
+                                       )
 
 # Vote
 class Vote(models.Model):
@@ -137,6 +152,18 @@ class Vote(models.Model):
     def __str__(self):
         return self.up_or_down + ' on ' + self.comment.__str__() + ' by ' + self.voter.username
 
+
+
+class Report(models.Model):
+    subject = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+                                related_name='Subject',
+                                related_query_name='Subjects'
+                                )
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.comment.get_comment_prefix() + ' / reported by ' + self.subject.username + ' on ' + str(self.timestamp)
 
 
     # Sources

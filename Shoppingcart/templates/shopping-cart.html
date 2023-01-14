@@ -9,6 +9,7 @@
 {% block title %}Shopping cart{% endblock %}
 
 {% block content %}
+<<<<<<< HEAD
     <div class="container-fluid bg-warning p-2">
         <div class="text-center">
             <div class="display-3 my-2 text-white">Shopping cart</div>
@@ -24,6 +25,23 @@
                             </div>
                             <br>
                         {% endfor %}
+=======
+<h2>Shopping cart</h2>
+    {% if shopping_cart_is_empty %}
+        Your shopping cart is empty.<br>
+    {% else %}
+        {% for item in shopping_cart_items %}
+            {{ item.produkt_name }}<br>
+            {{ item.preis }} € x{{ item.menge }}<br>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" id="produkt_id" name="produkt_id" value="{{ item.id }}">
+                <button name="plus">+</button>
+                <button name="minus">-</button>
+            </form>
+            <br>
+        {% endfor %}
+>>>>>>> fc9304f21467d766502e19d98452c2adc8bda05c
 
                         Total amount: {{ total }} €
 

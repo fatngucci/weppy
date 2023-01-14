@@ -77,7 +77,12 @@
                 {% if user.is_authenticated %}
                     <form method="POST">
                         {% csrf_token %}
+<<<<<<< HEAD
                         <button class="border rounded text-white bg-primary px-3 py-2" type="submit" name="cart">Add to shopping cart</button>
+=======
+                        {{ add_form.as_p }}
+                        <button class="btn" type="submit" name="cart">Add to shopping cart</button>
+>>>>>>> fc9304f21467d766502e19d98452c2adc8bda05c
                     </form>
                 {% else %}
                     <br><a href="{% url 'login' %}">Login</a> to add to shopping cart
@@ -114,7 +119,7 @@
                         <a href="{% url 'comment-edit' comment.id %}">Edit</a>
                         <a href="{% url 'comment-delete' comment.id %}">Delete</a>
                     {% else %}
-                        <a>Report</a>
+                        <a href="{% url 'comment-report' comment.id %}">Report</a>
                     {% endif %}
                     <br>
 

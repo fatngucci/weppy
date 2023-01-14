@@ -1,5 +1,7 @@
 from django import forms
-from .models import Payment
+
+
+from .models import Payment, ShoppingCartItem
 
 
 class PaymentForm(forms.ModelForm):
@@ -13,4 +15,12 @@ class PaymentForm(forms.ModelForm):
         fields = ['kreditkartenr', 'ablaufsdatum', 'betrag']
         widgets = {
             'benutzer': forms.HiddenInput(),
+        }
+
+class AddForm(forms.ModelForm):
+    class Meta:
+        model = ShoppingCartItem
+        fields = ['menge']
+        widgets = {
+            'produkt_id': forms.HiddenInput()
         }

@@ -1,7 +1,10 @@
 from django.shortcuts import redirect, render
+
+from Shoppingcart.forms import AddForm
 from .forms import SnackForm, CommentForm, CommentEditForm, SearchForm
 from .models import Snack, Comment
 from Shoppingcart.models import ShoppingCart
+from decimal import Decimal
 
 # Create your views here.
 
@@ -42,12 +45,15 @@ def snack_detail(request, **kwargs):
 
         elif 'cart' in request.POST:
             benutzer = request.user
-            ShoppingCart.add_item(benutzer, that_one_snack)
+            form = AddForm(request.POST)
+            if form.is_valid():
+                ShoppingCart.add_item(benutzer, that_one_snack, form.cleaned_data['menge'])
 
     comments = Comment.objects.filter(snack=that_one_snack)
     context = {'that_one_snack': that_one_snack,
                'comments_for_that_one_snack': comments,
                'comment_form': CommentForm,
+               'add_form': AddForm,
                'user': request.user
                }
 
@@ -92,10 +98,11 @@ def snack_search(request):
         if search_string_beschreibung:
             snacks_found = snacks_found.filter(beschreibung__contains=search_string_beschreibung)
 
-        search_string_bewertung = request.POST['produkt_bewertung']
-        if search_string_bewertung:
-            pb = string_produkt_bewertung
-            snacks_found = snacks_found.filter(produkt_bewertung__c=search_string_bewertung)
+        search_bewertung = request.POST['produkt_bewertung']
+        if search_bewertung:
+            search_bewertung_as_decimal = Decimal(search_bewertung)
+            print(search_bewertung_as_decimal)
+            snacks_found = snacks_found.filter(produkt_bewertung__gte=search_bewertung_as_decimal)
 
         form = SearchForm()
         context = {'form': form,
@@ -112,6 +119,13 @@ def vote(request, pk: str, up_or_down: str):
     comment = Comment.objects.get(id=int(pk))
     voter = request.user
     comment.vote(voter, up_or_down)
+    snack_id = comment.snack.id
+    return redirect('snack-detail', pk=snack_id)
+
+def report(request, pk: str):
+    comment = Comment.objects.get(id=int(pk))
+    subject = request.user
+    comment.report(subject)
     snack_id = comment.snack.id
     return redirect('snack-detail', pk=snack_id)
 

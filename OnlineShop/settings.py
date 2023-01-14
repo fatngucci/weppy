@@ -140,4 +140,9 @@ MEDIA_URL = '/media/'
 
 AUTH_USER_MODEL = 'Useradmin.MyUser'
 
+
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
