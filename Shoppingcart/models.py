@@ -3,12 +3,13 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
+
 # Create your models here.
 class ShoppingCart(models.Model):
     zeitstempel = models.DateTimeField(default=timezone.now)
     benutzer = models.ForeignKey(settings.AUTH_USER_MODEL,
-                               on_delete=models.CASCADE,
-                               )
+                                 on_delete=models.CASCADE,
+                                 )
 
     def add_item(myuser, snack):
         shopping_carts = ShoppingCart.objects.filter(benutzer=myuser)
@@ -38,6 +39,7 @@ class ShoppingCart(models.Model):
             total += item.preis * item.menge
         return total
 
+
 class ShoppingCartItem(models.Model):
     produkt_id = models.IntegerField()
     produkt_name = models.CharField(max_length=100)
@@ -47,9 +49,10 @@ class ShoppingCartItem(models.Model):
                                       on_delete=models.CASCADE,
                                       )
 
+
 class Payment(models.Model):
-    kreditkartenr = models.CharField(max_length=19) # nnnn nnnn nnnn nnnn
-    ablaufsdatum = models.CharField(max_length=7) # mm/yyyy
+    kreditkartenr = models.CharField(max_length=19)  # nnnn nnnn nnnn nnnn
+    ablaufsdatum = models.CharField(max_length=7)  # mm/yyyy
     betrag = models.DecimalField(decimal_places=2, max_digits=10)
     zeitstempel = models.DateTimeField(default=timezone.now)
     benutzer = models.ForeignKey(settings.AUTH_USER_MODEL,

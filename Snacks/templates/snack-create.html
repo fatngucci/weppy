@@ -9,7 +9,7 @@
 {% block title %}Add snack{% endblock %}
 
 {% block logged_in_content %}
-    <h2 class="text-center bg-warning py-3 border">Add snack</h2>
+    <div class="display-4 text-center text-white bg-warning mb-3 py-3 border">Add snack</div>
     <form class="mx-auto" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {% crispy form %}
