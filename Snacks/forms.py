@@ -5,7 +5,6 @@ from .models import Snack, Comment
 
 
 class SnackForm(forms.ModelForm):
-
     class Meta:
         model = Snack
         fields = ('name', 'gewicht', 'beschreibung', 'bilder', 'artikelnummer', 'preis', 'produkt_info')
@@ -33,7 +32,6 @@ class SnackForm(forms.ModelForm):
 
 
 class CommentForm(forms.ModelForm):
-
     class Meta:
         model = Comment
         fields = ['text', 'sternbewertung']
@@ -45,7 +43,6 @@ class CommentForm(forms.ModelForm):
 
 
 class CommentEditForm(forms.ModelForm):
-
     class Meta:
         model = Comment
         fields = ['text', 'sternbewertung']
@@ -55,18 +52,20 @@ class CommentEditForm(forms.ModelForm):
         }
 
 
-
-
 class SearchForm(forms.ModelForm):
+
+    beschreibung = forms.CharField(required=False)
+    produkt_bewertung = forms.DecimalField(required=False)
+
 
     #name = forms.CharField()
     #beschreibung = forms.CharField(required=False)
     #produkt_bewertung = forms.DecimalField(required=False)
-
     class Meta:
         model = Snack
         fields = ['name', 'beschreibung', 'produkt_bewertung']
 
+    def __init__(self, *args, **kwargs):
         widgets = {
             'produkt_bewertung': forms.Select(choices=Comment.STERN_BEWERTUNG),
         }
@@ -76,13 +75,11 @@ class SearchForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.layout = Layout(
-            Row(
-                Column('name', css_class='form-group mx-5'),
-                Column('beschreibung', css_class='form-group mx-1'),
-                Column('produkt_bewertung', css_class='form-group mx-1'),
-                css_class='form-row'
-            ),
+            Column('name', css_class='form-group mx-auto'),
+            Column('beschreibung', css_class='form-group mx-auto'),
+            Column('produkt_bewertung', css_class='form-group mx-auto'),
             Div(
                 Submit('submit', 'Search', css_class='btn mx-auto')
+                , css_class='text-center',
             )
         )

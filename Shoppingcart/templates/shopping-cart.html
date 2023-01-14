@@ -1,9 +1,31 @@
 {% extends 'home.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'Snacks/snacks_style.css' %}">
+{% endblock %}
 
 {% block title %}Shopping cart{% endblock %}
 
 {% block content %}
+<<<<<<< HEAD
+    <div class="container-fluid bg-warning p-2">
+        <div class="text-center">
+            <div class="display-3 my-2 text-white">Shopping cart</div>
+                <div class="my-2">
+                    {% if shopping_cart_is_empty %}
+                        Your shopping cart is empty.<br>
+                    {% else %}
+                        {% for item in shopping_cart_items %}
+                            <div class="border rounded bg-white mx-auto my-4 p-5 w-25">
+                                {{ item.bild.url }}
+                                {{ item.produkt_name }}<br>
+                                {{ item.preis }} € x{{ item.menge }}<br>
+                            </div>
+                            <br>
+                        {% endfor %}
+=======
 <h2>Shopping cart</h2>
     {% if shopping_cart_is_empty %}
         Your shopping cart is empty.<br>
@@ -19,17 +41,19 @@
             </form>
             <br>
         {% endfor %}
+>>>>>>> fc9304f21467d766502e19d98452c2adc8bda05c
 
-        Total amount: {{ total }} €
+                        Total amount: {{ total }} €
 
-        <br><br>
-        <form method="POST">
-            {% csrf_token %}
-            <button type="submit" name="empty">Empty the shopping cart</button><br>
-            <button type="submit" name="pay">Pay with credit card</button>
-        </form>
-    {% endif %}
-
-    <br>
+                        <br><br>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <button type="submit" name="empty">Empty the shopping cart</button><br>
+                            <button type="submit" name="pay">Pay with credit card</button>
+                        </form>
+                    {% endif %}
+                </div>
+        </div>
+    </div>
     <a href="{% url 'snack-list' %}">Back to the snacks</a>
 {% endblock %}
