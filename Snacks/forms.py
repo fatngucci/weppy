@@ -53,29 +53,24 @@ class CommentEditForm(forms.ModelForm):
 
 
 class SearchForm(forms.ModelForm):
-<<<<<<< HEAD
+
     beschreibung = forms.CharField(required=False)
     produkt_bewertung = forms.DecimalField(required=False)
-=======
+
 
     #name = forms.CharField()
     #beschreibung = forms.CharField(required=False)
     #produkt_bewertung = forms.DecimalField(required=False)
->>>>>>> fc9304f21467d766502e19d98452c2adc8bda05c
-
     class Meta:
         model = Snack
         fields = ['name', 'beschreibung', 'produkt_bewertung']
 
-<<<<<<< HEAD
     def __init__(self, *args, **kwargs):
-=======
         widgets = {
             'produkt_bewertung': forms.Select(choices=Comment.STERN_BEWERTUNG),
         }
 
-    def __int__(self, *args, **kwargs):
->>>>>>> fc9304f21467d766502e19d98452c2adc8bda05c
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_method = 'post'

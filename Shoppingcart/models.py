@@ -61,8 +61,6 @@ class ShoppingCartItem(models.Model):
                                       on_delete=models.CASCADE,
                                       )
 
-<<<<<<< HEAD
-=======
     def remove(self):
         if self.menge > 1:
             self.menge -= 1
@@ -73,7 +71,6 @@ class ShoppingCartItem(models.Model):
     def add(self):
         self.menge += 1
         self.save()
->>>>>>> fc9304f21467d766502e19d98452c2adc8bda05c
 
 class Payment(models.Model):
     kreditkartenr = models.CharField(max_length=19)  # nnnn nnnn nnnn nnnn
