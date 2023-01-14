@@ -17,15 +17,26 @@ def snack_list(request):
         if search_string_beschreibung:
             snacks_found = snacks_found.filter(beschreibung__contains=search_string_beschreibung)
 
+        search_bewertung = request.POST['produkt_bewertung']
+        if search_bewertung:
+            search_bewertung_as_decimal = Decimal(search_bewertung)
+            print(search_bewertung_as_decimal)
+            snacks_found = snacks_found.filter(produkt_bewertung__gte=search_bewertung_as_decimal)
+
+        results = False
+        if len(snacks_found) > 0:
+            results = True
+
         form = SearchForm()
         context = {'form': form,
                    'snacks_found': snacks_found,
-                   'show_results': True}
+                   'show_results': results}
+
         return render(request, 'snack-search.html', context)
     all_the_snacks = Snack.objects.all()
-    form = SearchForm()
+    #form = SearchForm(request.POST)
     context = {'all_the_snacks': all_the_snacks,
-               'form': form}
+                'form': SearchForm}
     return render(request, 'snack-list.html', context)
 
 def snack_detail(request, **kwargs):

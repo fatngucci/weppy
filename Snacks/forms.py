@@ -71,7 +71,7 @@ class SearchForm(forms.ModelForm):
             'produkt_bewertung': forms.Select(choices=Comment.STERN_BEWERTUNG),
         }
 
-    def __int__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_method = 'post'
