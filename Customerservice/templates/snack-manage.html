@@ -9,6 +9,26 @@
         You are not authorized to delete snacks.<br><br>
     {% endif %}
 
+    <br><a href="{% url 'snack-create'%}"><h3>add snack</h3></a><br>
+
+        {% if delete_button_clicked %}
+        <img src="{{ the_snack.bilder.url }}" height="150" width="150"><br>
+        <a href="{% url 'snack-detail' the_snack.id %}"><b>{{  the_snack.name }}</b></a><br>
+        {{ the_snack.gewicht }} g <br> {{ the_snack.preis }} € <br>
+        <br>
+        {% if can_delete %}
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" id="snack_id" name="snack_id" value="{{ the_snack.id }}">
+                    <b>Diesen Snack wirklich löschen?</b><br>
+                    <button type="submit" name="yes">Ja</button>
+                    <button type="submit" name="no">Nein</button>
+
+            </form>
+        {% endif %}
+
+    {% else %}
+
     {% for snack in all_the_snacks %}
         <img src="{{ snack.bilder.url }}" height="150" width="150"><br>
         <a href="{% url 'snack-detail' snack.id %}"><b>{{  snack.name }}</b></a><br>
@@ -26,6 +46,7 @@
 
         <br>
     {% endfor %}
+    {% endif %}
     <br>
 
 {% endblock %}

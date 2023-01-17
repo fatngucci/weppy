@@ -94,7 +94,7 @@ def snack_delete(request, **kwargs):
 
     if request.method == 'POST':
         if 'cancel' in request.POST:
-            return redirect('snack-list')
+            return redirect('snack-detail', request.POST['snack_id'])
         to_be_deleted.delete()
         return redirect('snack-list')
 
