@@ -8,6 +8,8 @@
 {% block title %}Delete snack{% endblock %}
 
 {% block logged_in_content%}
+{% if can_delete %}
+
     <h2>Delete snack</h2>
     <form method="POST">
         {% csrf_token %}
@@ -18,9 +20,10 @@
     </form>
 
 
-{% endblock %}
+{% else %}
 
-{% block not_logged_in_content %}
-    <p>You must log in to delete snacks</p>
+    <p>You are not authorized to delete snacks</p>
     <a href="{% url 'login' %}">Login</a>
+
+{% endif %}
 {% endblock %}

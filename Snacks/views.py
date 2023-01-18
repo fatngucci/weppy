@@ -84,19 +84,33 @@ def snack_create(request):
 
     else:
         form = SnackForm()
-        context = {'form': form}
+        can_delete = False
+        myuser = request.user
+
+        if not myuser.is_anonymous:
+            can_delete = myuser.can_delete()
+        context = {'form': form,
+                   'can_delete': can_delete}
         return render(request, 'snack-create.html', context)
 
 def snack_delete(request, **kwargs):
     snack_id = kwargs['pk']
     to_be_deleted = Snack.objects.get(id=snack_id)
-    context = {'that_one_snack': to_be_deleted}
+
+    can_delete = False
+    myuser = request.user
+
+    if not myuser.is_anonymous:
+        can_delete = myuser.can_delete()
 
     if request.method == 'POST':
         if 'cancel' in request.POST:
             return redirect('snack-detail', request.POST['snack_id'])
         to_be_deleted.delete()
         return redirect('snack-list')
+
+    context = {'that_one_snack': to_be_deleted,
+               'can_delete': can_delete}
 
     return render(request, 'snack-delete.html', context)
 

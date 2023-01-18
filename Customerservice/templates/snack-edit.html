@@ -7,7 +7,7 @@
 <h2>Snack edit</h2>
     {% if not can_delete %}
         You are not authorized to edit snacks.<br><br>
-    {% endif %}
+    {% else %}
 
         <table>
         <img src="{{ snack.bilder.url }}" height="350" width="350"><br>
@@ -45,14 +45,13 @@
         </tr>
 
     </table>
-    {% if can_delete %}
+
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Edit</button>
             <button type="submit" name="cancel">Cancel</button>
         </form>
-    {% else %}
-        {{ snack.name }}<br>
+
     {% endif %}
 {% endblock %}

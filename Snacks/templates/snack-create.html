@@ -9,6 +9,7 @@
 {% block title %}Add snack{% endblock %}
 
 {% block logged_in_content %}
+    {% if can_delete %}
     <div class="display-4 text-center text-white bg-warning mb-3 py-3 border">Add snack</div>
     <form class="mx-auto" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
@@ -42,6 +43,9 @@
         -->
 
     </form>
+    {% else %}
+        du bist nicht autorisiert
+    {% endif %}
 {% endblock %}
 
 {% block not_logged_in_content %}

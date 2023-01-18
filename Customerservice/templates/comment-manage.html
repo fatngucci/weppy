@@ -6,8 +6,8 @@
 {% block logged_in_content %}
 <h2>Comment manage</h2>
     {% if not can_delete %}
-        You are not authorized to delete snacks.<br><br>
-    {% endif %}
+        You are not authorized to manage comments.<br><br>
+    {% else %}
 
     {% if delete_button_clicked %}
         Text: <a href="{% url 'snack-detail' the_comment.snack.id %}"><b>{{  the_comment.text }}</b></a><br>
@@ -43,6 +43,7 @@
 
         <br>
     {% endfor %}
+    {% endif %}
     {% endif %}
     <br>
 

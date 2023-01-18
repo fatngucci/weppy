@@ -57,3 +57,7 @@ body {
     grid-area: add;
 }
 */
+
+img {
+    object-fit: scale-down;
+}

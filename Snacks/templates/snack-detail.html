@@ -102,6 +102,9 @@
                     {% endfor %}<br>
                     {{ comment.text }}<br>
 
+                    {% if user.is_authenticated %}
+                    {% block logged_in_content %}
+
                     <span>{{ comment.get_upvotes_count }}</span>
                     <a href="{% url 'comment-vote' comment.id 'up' %}">
                         <img src="{% static 'Snacks/upvote.png' %}" height="30" width ="30">
@@ -120,18 +123,46 @@
                     {% endif %}
                     <br>
 
+                    {% endblock %}
+
+                    {% else %}
+                    {% block not_logged_in_content %}
+                    <span>{{ comment.get_upvotes_count }}</span>
+                        <img src="{% static 'Snacks/upvote.png' %}" height="30" width ="30">
+
+
+                    <span>{{ comment.get_downvotes_count }}</span>
+
+                        <img src="{% static 'Snacks/downvote.png' %}" height="30" width ="30">
+
+                    <br>
+
+                    <br>
+
+                    {% endblock %}
+                    {% endif %}
+
                 {% endfor %}
             </div>
             <div class="row p-4">
+                {% if user.is_authenticated %}
                 <b style="color: white">Share your thoughts on this snack</b>
                 <form class="" method="POST">
                     {% csrf_token %}
                     {{ comment_form.as_p }}
                     <button class="border rounded text-white bg-primary px-3 py-2" type="submit" name="comment">Post comment</button>
                 </form>
+                {% else %}
+                <br><a href="{% url 'login' %}">Login</a> to add to comments
+                    <br>
+                {% endif %}
+
             </div>
         </div>
     </div>
+
     <a class="position-fixed" style="top:0.25em; left: 0.25em;" href="{% url 'snack-list' %}">Back to all snacks</a>
+    {% if user.is_authenticated and user.can_delete %}
     <a class="w-100" href="{{ snack.id }}delete/">Delete snack</a>
+    {% endif %}
 {% endblock %}

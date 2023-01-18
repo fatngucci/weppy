@@ -5,6 +5,7 @@ from .forms import PaymentForm, AddForm
 from .models import ShoppingCart, ShoppingCartItem
 
 # Create your views here.
+#@login_required(login_url='/useradmin/login/')
 def show_shopping_cart(request):
     if request.method == 'POST':
         if 'empty' in request.POST:
@@ -59,14 +60,15 @@ def show_shopping_cart(request):
                     }
          return render(request, 'shopping-cart.html', context)
 
-@login_required(login_url='/useradmin/login/')
+#@login_required(login_url='/useradmin/login/')
 def pay(request):
     shopping_cart_is_empty = True
     paid = False
     form = None
+    benutzer = request.user
 
     if request.method == 'POST':
-        benutzer = request.user
+
         form = PaymentForm(request.POST)
         form.instance.benutzer = benutzer
         if form.is_valid():
@@ -78,11 +80,12 @@ def pay(request):
             print(form.errors)
 
     else:
-        shopping_carts = ShoppingCart.objects.filter(benutzer=request.user)
-        if shopping_carts:
-            shopping_cart = shopping_carts.first()
-            shopping_cart_is_empty = False
-            form = PaymentForm(initial={'betrag': shopping_cart.get_total()})
+        if benutzer.is_authenticated:
+            shopping_carts = ShoppingCart.objects.filter(benutzer=request.user)
+            if shopping_carts:
+                shopping_cart = shopping_carts.first()
+                shopping_cart_is_empty = False
+                form = PaymentForm(initial={'betrag': shopping_cart.get_total()})
 
     context = {'shopping_cart_is_empty': shopping_cart_is_empty,
                'payment_form': form,

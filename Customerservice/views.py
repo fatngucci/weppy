@@ -7,7 +7,7 @@ from Snacks.models import Snack, Comment
 # Create your views here.
 
 
-@staff_member_required(login_url='/useradmin/login/')
+#@staff_member_required(login_url='/useradmin/login/')
 def menu_view(request):
     can_delete = False
     myuser = request.user
@@ -19,7 +19,7 @@ def menu_view(request):
     return render(request, 'menu.html', context)
 
 
-@staff_member_required(login_url='/useradmin/login/')
+#@staff_member_required(login_url='/useradmin/login/')
 def snack_edit_view(request, pk: str):
     snack_id = pk
     if request.method == 'POST':
