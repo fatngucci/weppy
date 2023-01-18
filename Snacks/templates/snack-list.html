@@ -6,8 +6,60 @@
     <link rel="stylesheet" type="text/css" href="{% static 'Snacks/snack_list_style.css' %}">
 {% endblock %}
 
-{% block content %}
+{% block header %}
+    <div class="mw-100 d-flex justify-content-between">
+        <div></div>
+        <div class="display-3 text-center py-2 mx-auto">Snacks'n'Juice</div>
 
+        <a class="position-fixed" style="right: 0.25em; top: 0.25em;" href="{% url 'shopping-cart-show' %}">
+            Shopping Cart (
+            {% if user.is_authenticated %}
+                {{ request.user.count_shopping_cart_items }}
+            {% else %}
+                0
+            {% endif %}
+            )
+        </a>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-warning">
+      <a class="navbar-brand" href="#"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Dropdown
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+          </li>
+        </ul>
+        <form method="POST" class="row justify-content-center my-lg-0">
+            {% csrf_token %}
+            {% crispy form %}
+        </form>
+      </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <!--
     <nav class="col-lg bg-warning border-bottom border-top">
         <div class="h-25 row justify-content-center">
             <div class="w-100 py-2"></div>
@@ -17,6 +69,7 @@
             </form>
         </div>
     </nav>
+    -->
         <div class="col-12 mt-4">
             <div class="col-6 mx-auto my-4">
                 <div id="carouselBanner" class="carousel slide" data-ride="carousel">
