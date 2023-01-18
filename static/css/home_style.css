@@ -1,12 +1,7 @@
-*,
-*::after,
-*::before{
-    box-sizing: border-box;
+body{
+    background-color: white;
 }
 
-
-body {
-    font-size: 20px;
-    color: indigo;
-    background: lightpink;
+img{
+    object-fit: scale-down;
 }

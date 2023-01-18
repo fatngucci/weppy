@@ -25,7 +25,7 @@
             )
         </a>
     </div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-warning">
       <a class="navbar-brand" href="{% url 'home' %}">Home</a>
 
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,24 +62,37 @@
 {% endblock %}
 
 {% block content %}
-    {% if user.is_authenticated %}
-        {% block logged_in_content %}
-            <H1>Homepage</H1>
-            <p>Hi {{ user.username }}!</p>
-            {% if myuser_has_birthday_today %}
-                <p>Happy Birthday!</p>
+    <div class="container py-2">
+        <h1 class="display-4 py-2 text-center">Homepage</h1>
+        <div class="text-center">
+            {% if user.is_authenticated %}
+                {% block logged_in_content %}
+                    <p>Hi {{ user.username }}!</p>
+                    {% if myuser_has_birthday_today %}
+                        <p>Happy Birthday!</p>
+                    {% endif %}
+                    <p><a href="{% url 'snack-list' %}">Show me the snacks</a></p>
+                    <p><a href="{% url 'myuser-list' %}">Show me the users</a></p>
+                    <p><a href="{% url 'menu' %}">Customerservice</a></p>
+                    <a href="{% url 'logout' %}">Logout</a>
+                {% endblock %}
+            {% else %}
+                {% block not_logged_in_content %}
+                    <p>You are not logged in</p>
+                    <p><a href="{% url 'login' %}">Login</a></p>
+                    <a href="{% url 'signup' %}">Signup</a>
+                {% endblock %}
             {% endif %}
-            <p><a href="{% url 'snack-list' %}">Show me the snacks</a></p>
-            <p><a href="{% url 'myuser-list' %}">Show me the users</a></p>
-            <p><a href="{% url 'menu' %}">Customerservice</a></p>
-            <a href="{% url 'logout' %}">Logout</a>
-        {% endblock %}
-    {% else %}
-        {% block not_logged_in_content %}
-            <H1>Homepage</H1>
-            <p>You are not logged in</p>
-            <p><a href="{% url 'login' %}">Login</a></p>
-            <a href="{% url 'signup' %}">Signup</a>
-        {% endblock %}
-    {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <footer class="container-fluid bg-warning" style="height: 60px;">
+        <div class="container text-center p-1" style="max-width: 680px;">
+            <span class="text-muted"> made by </span>
+            <br>
+            <span class="text-muted"> Jonathan Harsono & Taro Anklam </span>
+        </div>
+    </footer>
 {% endblock %}

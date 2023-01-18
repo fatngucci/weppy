@@ -58,7 +58,6 @@ class SearchForm(forms.ModelForm):
 
     beschreibung = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Beschreibung'}), required=False)
     produkt_bewertung = forms.DecimalField(widget=forms.NumberInput(attrs={'placeholder': 'Bewertung'}), required=False)
-    nameField = forms.CharField(widget=forms.TextInput(attrs={'placeholder' : 'Name'}), required=True)
 
     #name = forms.CharField()
     #beschreibung = forms.CharField(required=False)
@@ -77,11 +76,11 @@ class SearchForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.layout = Layout(
-            Column('nameField', css_class='form-group mx-1'),
+            Column('name', css_class='form-group mx-1'),
             Column('beschreibung', css_class='form-group mx-1'),
             Column('produkt_bewertung', css_class='form-group mx-1'),
             Div(
                 Submit('submit', 'Search', css_class='btn my-auto mx-1')
-                , css_class='my-auto',
+                , css_class='mx-3 my-auto',
             )
         )

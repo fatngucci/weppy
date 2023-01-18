@@ -22,7 +22,8 @@
         </a>
     </div>
     <nav class="navbar navbar-expand-lg navbar-light bg-warning">
-      <a class="navbar-brand" href="#"></a>
+      <a class="navbar-brand" href="{% url 'home' %}">Home</a>
+
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -30,7 +31,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="{% url 'snack-list' %}">Snacks <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Link</a>
@@ -71,16 +72,17 @@
     </nav>
 <<<<<<< HEAD
     -->
+   <!--
         <div class="col-12 mt-4">
             <div class="col-6 mx-auto my-4">
                 <div id="carouselBanner" class="carousel slide" data-ride="carousel">
                   <ol class="carousel-indicators">
-=======
-    <div class="col-12 mt-4">
+                  -->
+    <div class="col-12 my-4">
         <div class="col-6 mx-auto my-4">
             <div id="carouselBanner" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
->>>>>>> 79e502a2c64b4fb775919bc5703e745822476ef0
+
                     <li data-target="#carouselBanner" data-slide-to="0" class="active"></li>
                     <li data-target="#carouselBanner" data-slide-to="1"></li>
                     <li data-target="#carouselBanner" data-slide-to="2"></li>
@@ -106,24 +108,30 @@
                 </a>
             </div>
         </div>
-        <div class="w-75 row mx-auto">
-            {% for snack in all_the_snacks %}
-                <div class="col text-center py-5 m-1 border rounded">
-                    <div class="col align-self-center ">
-                        <a href="{% url 'snack-detail' snack.id %}">
-                            <img id="img{{ snack.id }}" src="{{ snack.bilder.url }}" height="150" width="150">
-                        </a>
-                        <div class="w-100"></div>
-                        <a id="a{{ snack.id }}" href="{% url 'snack-detail' snack.id %}"><b>{{ snack.name }}</b></a>
-                        <div class="w-100"></div>
-                        <p id="text{{ snack.id }}">{{ snack.gewicht }} g <br> {{ snack.preis }} € <br></p>
-                    </div>
-                </div>
-            {% endfor %}
+        <div class="w-75 mx-auto">
+            <div class="row mx-auto">
+                {% for snack in all_the_snacks %}
+                        <!-- <div class="col text-center py-5 m-1 border rounded"> -->
+                        <div class="card m-1 p-4">
+                                <!-- <div class="col align-self-center "> -->
+                            <a href="{% url 'snack-detail' snack.id %}">
+                                <img class="card-img-top" style="width: 18rem;" id="img{{ snack.id }}" src="{{ snack.bilder.url }}" height="150" width="150">
+                            </a>
+                            <div class="text-center">
+                                <a class="card-title" id="a{{ snack.id }}" href="{% url 'snack-detail' snack.id %}">
+                                    <h4>{{ snack.name }}</h4>
+                                </a>
+                                <div class="card-text m-1">
+                                    <h5> {{ snack.preis }}€ </h5>
+                                    <p style="font-size: 0.8rem;"> {{ snack.gewicht }}g </p>
+                                </div>
+                            </div>
+                                        <!-- </div> -->
+                        </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
-
-
 {% endblock %}
 
 {% block logged_in_content %}
