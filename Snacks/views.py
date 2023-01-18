@@ -17,15 +17,26 @@ def snack_list(request):
         if search_string_beschreibung:
             snacks_found = snacks_found.filter(beschreibung__contains=search_string_beschreibung)
 
+        search_bewertung = request.POST['produkt_bewertung']
+        if search_bewertung:
+            search_bewertung_as_decimal = Decimal(search_bewertung)
+            print(search_bewertung_as_decimal)
+            snacks_found = snacks_found.filter(produkt_bewertung__gte=search_bewertung_as_decimal)
+
+        results = False
+        if len(snacks_found) > 0:
+            results = True
+
         form = SearchForm()
         context = {'form': form,
                    'snacks_found': snacks_found,
-                   'show_results': True}
+                   'show_results': results}
+
         return render(request, 'snack-search.html', context)
     all_the_snacks = Snack.objects.all()
-    form = SearchForm()
+    #form = SearchForm(request.POST)
     context = {'all_the_snacks': all_the_snacks,
-               'form': form}
+                'form': SearchForm}
     return render(request, 'snack-list.html', context)
 
 def snack_detail(request, **kwargs):
@@ -73,19 +84,33 @@ def snack_create(request):
 
     else:
         form = SnackForm()
-        context = {'form': form}
+        can_delete = False
+        myuser = request.user
+
+        if not myuser.is_anonymous:
+            can_delete = myuser.can_delete()
+        context = {'form': form,
+                   'can_delete': can_delete}
         return render(request, 'snack-create.html', context)
 
 def snack_delete(request, **kwargs):
     snack_id = kwargs['pk']
     to_be_deleted = Snack.objects.get(id=snack_id)
-    context = {'that_one_snack': to_be_deleted}
+
+    can_delete = False
+    myuser = request.user
+
+    if not myuser.is_anonymous:
+        can_delete = myuser.can_delete()
 
     if request.method == 'POST':
         if 'cancel' in request.POST:
-            return redirect('snack-list')
+            return redirect('snack-detail', request.POST['snack_id'])
         to_be_deleted.delete()
         return redirect('snack-list')
+
+    context = {'that_one_snack': to_be_deleted,
+               'can_delete': can_delete}
 
     return render(request, 'snack-delete.html', context)
 

@@ -1,6 +1,7 @@
 from django.contrib.auth import (
     login as auth_login,
 )
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy

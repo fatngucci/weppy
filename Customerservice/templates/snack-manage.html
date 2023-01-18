@@ -6,26 +6,48 @@
 {% block logged_in_content %}
 <h2>Snack manage</h2>
     {% if not can_delete %}
-        You are not authorized to delete snacks.<br><br>
-    {% endif %}
+        You are not authorized to manage snacks.<br><br>
+    {% else %}
 
-    {% for snack in all_the_snacks %}
-        <img src="{{ snack.bilder.url }}" height="150" width="150"><br>
-        <a href="{% url 'snack-detail' snack.id %}"><b>{{  snack.name }}</b></a><br>
-        {{ snack.gewicht }} g <br> {{ snack.preis }} € <br>
+    <br><a href="{% url 'snack-create'%}"><h3>add snack</h3></a><br>
+
+        {% if delete_button_clicked %}
+        <img src="{{ the_snack.bilder.url }}" height="150" width="150"><br>
+        <a href="{% url 'snack-detail' the_snack.id %}"><b>{{  the_snack.name }}</b></a><br>
+        {{ the_snack.gewicht }} g <br> {{ the_snack.preis }} € <br>
         <br>
-
-        {% if can_delete %}
-            <form method="POST">
+            {% if can_delete %}
+                <form method="POST">
                 {% csrf_token %}
-                <input type="hidden" id="snack_id" name="snack_id" value="{{ snack.id }}">
-                <button type="submit" name="delete">Delete</button>
-                <button type="submit" name="edit">Edit</button>
-            </form>
-        {% endif %}
+                <input type="hidden" id="snack_id" name="snack_id" value="{{ the_snack.id }}">
+                    <b>Diesen Snack wirklich löschen?</b><br>
+                    <button type="submit" name="yes">Ja</button>
+                    <button type="submit" name="no">Nein</button>
 
-        <br>
-    {% endfor %}
+                </form>
+            {% endif %}
+
+        {% else %}
+
+        {% for snack in all_the_snacks %}
+            <img src="{{ snack.bilder.url }}" height="150" width="150"><br>
+            <a href="{% url 'snack-detail' snack.id %}"><b>{{  snack.name }}</b></a><br>
+            {{ snack.gewicht }} g <br> {{ snack.preis }} € <br>
+            <br>
+
+            {% if can_delete %}
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" id="snack_id" name="snack_id" value="{{ snack.id }}">
+                    <button type="submit" name="delete">Delete</button>
+                    <button type="submit" name="edit">Edit</button>
+                </form>
+            {% endif %}
+
+            <br>
+        {% endfor %}
+        {% endif %}
     <br>
+    {% endif %}
 
 {% endblock %}
