@@ -23,7 +23,7 @@ class MyLoginView(LoginView):
     def form_valid(self, form):
         """Security check complete. Log the user in. PERFORM CUSTOM CODE."""
         auth_login(self.request, form.get_user())
-#        form.get_user().execute_after_login()  # Custom code
+        #        form.get_user().execute_after_login()  # Custom code
         return HttpResponseRedirect(self.get_success_url())
 
 
@@ -36,7 +36,7 @@ class MyUserListView(generic.ListView):
 class HomeBirthdayView(TemplateView):
     def get_context_data(self, **kwargs):
         myuser = self.request.user  # Class is MyUser, not User
-        #print('-------------', myuser.__class__.__name__)
+        # print('-------------', myuser.__class__.__name__)
         myuser_has_birthday_today = False
         if myuser.is_authenticated:  # Anonymous user cannot call has_birthday_today()
             myuser_has_birthday_today = myuser.has_birthday_today()

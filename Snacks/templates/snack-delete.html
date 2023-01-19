@@ -7,23 +7,23 @@
 
 {% block title %}Delete snack{% endblock %}
 
-{% block logged_in_content%}
-{% if can_delete %}
+{% block logged_in_content %}
+    {% if can_delete %}
 
-    <h2>Delete snack</h2>
-    <form method="POST">
-        {% csrf_token %}
-        <p>Are you sure you want to delete "{{ that_one_snack }}"?</p>
-        <input type="hidden" id="snack_id" name="snack_id" value="{{ that_one_snack.id }}">
-        <input type="submit" name="delete" value="Confirm">
-        <input type="submit" name="cancel" value="Cancel">
-    </form>
+        <h2>Delete snack</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <p>Are you sure you want to delete "{{ that_one_snack }}"?</p>
+            <input type="hidden" id="snack_id" name="snack_id" value="{{ that_one_snack.id }}">
+            <input type="submit" name="delete" value="Confirm">
+            <input type="submit" name="cancel" value="Cancel">
+        </form>
 
 
-{% else %}
+    {% else %}
 
-    <p>You are not authorized to delete snacks</p>
-    <a href="{% url 'login' %}">Login</a>
+        <p>You are not authorized to delete snacks</p>
+        <a href="{% url 'login' %}">Login</a>
 
-{% endif %}
+    {% endif %}
 {% endblock %}

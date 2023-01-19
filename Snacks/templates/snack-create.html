@@ -10,39 +10,39 @@
 
 {% block logged_in_content %}
     {% if can_delete %}
-    <div class="display-4 text-center text-white bg-warning mb-3 py-3 border">Add snack</div>
-    <form class="mx-auto" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% crispy form %}
+        <div class="display-4 text-center text-white bg-warning mb-3 py-3 border">Add snack</div>
+        <form class="mx-auto" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% crispy form %}
 
-        <!--
-        <label>Name:</label>
-        <input type="text" name="name"><br><br>
+            <!--
+            <label>Name:</label>
+            <input type="text" name="name"><br><br>
 
-        <label>Gewicht:</label>
-        <input type="number" name="gewicht"><br><br>
+            <label>Gewicht:</label>
+            <input type="number" name="gewicht"><br><br>
 
-        <label>Beschreibung:</label>
-        <input type="text" name="beschreibung"><br><br>
+            <label>Beschreibung:</label>
+            <input type="text" name="beschreibung"><br><br>
 
-        <label>Artikelnummer:</label>
-        <input type="text" name="artikelnummer"><br><br>
+            <label>Artikelnummer:</label>
+            <input type="text" name="artikelnummer"><br><br>
 
-        <label>Preis:</label>
-        <input type="number" name="preis"><br><br>
+            <label>Preis:</label>
+            <input type="number" name="preis"><br><br>
 
-        <label>Foto:</label>
-        <input type="file" name="bilder" accept="image/*"><br><br>
+            <label>Foto:</label>
+            <input type="file" name="bilder" accept="image/*"><br><br>
 
-        <label>Produktinfo:</label>
-        <input type="file" name="produkt_info" accept="application/pdf"><br><br>
+            <label>Produktinfo:</label>
+            <input type="file" name="produkt_info" accept="application/pdf"><br><br>
 
-        <br><br>
+            <br><br>
 
-        <button type="submit">Add snack</button>
-        -->
+            <button type="submit">Add snack</button>
+            -->
 
-    </form>
+        </form>
     {% else %}
         du bist nicht autorisiert
     {% endif %}

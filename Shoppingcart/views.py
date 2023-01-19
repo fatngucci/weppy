@@ -4,8 +4,9 @@ from django.shortcuts import redirect, render
 from .forms import PaymentForm, AddForm
 from .models import ShoppingCart, ShoppingCartItem
 
+
 # Create your views here.
-#@login_required(login_url='/useradmin/login/')
+# @login_required(login_url='/useradmin/login/')
 def show_shopping_cart(request):
     if request.method == 'POST':
         if 'empty' in request.POST:
@@ -41,26 +42,27 @@ def show_shopping_cart(request):
 
 
     else:
-         shopping_cart_is_empty = True
-         shopping_cart_items = None
-         total = Decimal(0.0)
+        shopping_cart_is_empty = True
+        shopping_cart_items = None
+        total = Decimal(0.0)
 
-         benutzer = request.user
-         if benutzer.is_authenticated:
-             shopping_carts = ShoppingCart.objects.filter(benutzer=benutzer)
-             if shopping_carts:
-                 shopping_cart = shopping_carts.first()
-                 shopping_cart_is_empty = False
-                 shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart)
-                 total = shopping_cart.get_total()
+        benutzer = request.user
+        if benutzer.is_authenticated:
+            shopping_carts = ShoppingCart.objects.filter(benutzer=benutzer)
+            if shopping_carts:
+                shopping_cart = shopping_carts.first()
+                shopping_cart_is_empty = False
+                shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart)
+                total = shopping_cart.get_total()
 
-         context = {'shopping_cart_is_empty': shopping_cart_is_empty,
-                    'shopping_cart_items': shopping_cart_items,
-                    'total': total,
-                    }
-         return render(request, 'shopping-cart.html', context)
+        context = {'shopping_cart_is_empty': shopping_cart_is_empty,
+                   'shopping_cart_items': shopping_cart_items,
+                   'total': total,
+                   }
+        return render(request, 'shopping-cart.html', context)
 
-#@login_required(login_url='/useradmin/login/')
+
+# @login_required(login_url='/useradmin/login/')
 def pay(request):
     shopping_cart_is_empty = True
     paid = False
@@ -89,5 +91,5 @@ def pay(request):
 
     context = {'shopping_cart_is_empty': shopping_cart_is_empty,
                'payment_form': form,
-               'paid': paid,}
+               'paid': paid, }
     return render(request, 'pay.html', context)

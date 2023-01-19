@@ -31,11 +31,11 @@ class ShoppingCart(models.Model):
             produkt_name = snack.name + ' / ' + str(snack.gewicht) + 'g / ' + str(snack.artikelnummer)
             preis = snack.preis
             ShoppingCartItem.objects.create(produkt_id=produkt_id,
-                                        produkt_name=produkt_name,
-                                        preis=preis,
-                                        menge=menge,
-                                        shopping_cart=shopping_cart,
-                                        )
+                                            produkt_name=produkt_name,
+                                            preis=preis,
+                                            menge=menge,
+                                            shopping_cart=shopping_cart,
+                                            )
 
     def get_number_of_items(self):
         number_of_items = 0
@@ -71,6 +71,7 @@ class ShoppingCartItem(models.Model):
     def add(self):
         self.menge += 1
         self.save()
+
 
 class Payment(models.Model):
     kreditkartenr = models.CharField(max_length=19)  # nnnn nnnn nnnn nnnn

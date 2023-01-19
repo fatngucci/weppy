@@ -53,14 +53,12 @@ class CommentEditForm(forms.ModelForm):
 
 
 class SearchForm(forms.ModelForm):
-
     beschreibung = forms.CharField(required=False)
     produkt_bewertung = forms.DecimalField(required=False)
 
-
-    #name = forms.CharField()
-    #beschreibung = forms.CharField(required=False)
-    #produkt_bewertung = forms.DecimalField(required=False)
+    # name = forms.CharField()
+    # beschreibung = forms.CharField(required=False)
+    # produkt_bewertung = forms.DecimalField(required=False)
     class Meta:
         model = Snack
         fields = ['name', 'beschreibung', 'produkt_bewertung']

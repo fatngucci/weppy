@@ -35,7 +35,7 @@ class MyUser(AbstractUser):
         return self.is_superuser or self.is_staff
 
     def can_delete(self):
-        #return self.is_superuser_or_customer_service()
+        # return self.is_superuser_or_customer_service()
         return self.is_superuser_or_staff()
 
     def count_shopping_cart_items(self):

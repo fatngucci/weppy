@@ -12,35 +12,36 @@
     <div class="container-fluid bg-warning p-2">
         <div class="text-center">
             <div class="display-3 my-2 text-white">Shopping cart</div>
-                <div class="my-2">
-                    {% if shopping_cart_is_empty %}
-                        Your shopping cart is empty.<br>
-                    {% else %}
-                        {% for item in shopping_cart_items %}
-                            <div class="border rounded bg-white mx-auto my-4 p-5 w-25">
-                                {{ item.bild.url }}
-                                {{ item.produkt_name }}<br>
-                                {{ item.preis }} € x{{ item.menge }}<br>
-                                <form method="POST">
-                                    {% csrf_token %}
-                                    <input type="hidden" id="produkt_id" name="produkt_id" value="{{ item.id }}">
-                                    <button name="plus">+</button>
-                                    <button name="minus">-</button>
-                                </form>
-                            </div>
-                            <br>
-                        {% endfor %}
+            <div class="my-2">
+                {% if shopping_cart_is_empty %}
+                    Your shopping cart is empty.<br>
+                {% else %}
+                    {% for item in shopping_cart_items %}
+                        <div class="border rounded bg-white mx-auto my-4 p-5 w-25">
+                            {{ item.bild.url }}
+                            {{ item.produkt_name }}<br>
+                            {{ item.preis }} € x{{ item.menge }}<br>
+                            <form method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" id="produkt_id" name="produkt_id" value="{{ item.id }}">
+                                <button name="plus">+</button>
+                                <button name="minus">-</button>
+                            </form>
+                        </div>
+                        <br>
+                    {% endfor %}
 
-                        Total amount: {{ total }} €
+                    Total amount: {{ total }} €
 
-                        <br><br>
-                        <form method="POST">
-                            {% csrf_token %}
-                            <button type="submit" name="empty">Empty the shopping cart</button><br>
-                            <button type="submit" name="pay">Pay with credit card</button>
-                        </form>
-                    {% endif %}
-                </div>
+                    <br><br>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <button type="submit" name="empty">Empty the shopping cart</button>
+                        <br>
+                        <button type="submit" name="pay">Pay with credit card</button>
+                    </form>
+                {% endif %}
+            </div>
         </div>
     </div>
     <a href="{% url 'snack-list' %}">Back to the snacks</a>

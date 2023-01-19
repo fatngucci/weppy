@@ -21,13 +21,13 @@ from Useradmin.views import HomeBirthdayView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('home/', HomeBirthdayView.as_view(template_name='home.html'), name='home'), # old one
+    # path('home/', HomeBirthdayView.as_view(template_name='home.html'), name='home'), # old one
     path('', HomeBirthdayView.as_view(template_name='home.html'), name='home'),
     path('useradmin/', include('Useradmin.urls')),
     path('useradmin/', include('django.contrib.auth.urls')),
     path('snacks/', include('Snacks.urls')),
     path('shoppingcart/', include('Shoppingcart.urls')),
-    path('customerservice/',include('Customerservice.urls'))
+    path('customerservice/', include('Customerservice.urls'))
 ]
 
 if settings.DEBUG:

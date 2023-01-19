@@ -6,6 +6,7 @@ from .models import Snack, Comment
 from Shoppingcart.models import ShoppingCart
 from decimal import Decimal
 
+
 # Create your views here.
 
 def snack_list(request):
@@ -34,10 +35,11 @@ def snack_list(request):
 
         return render(request, 'snack-search.html', context)
     all_the_snacks = Snack.objects.all()
-    #form = SearchForm(request.POST)
+    # form = SearchForm(request.POST)
     context = {'all_the_snacks': all_the_snacks,
-                'form': SearchForm}
+               'form': SearchForm}
     return render(request, 'snack-list.html', context)
+
 
 def snack_detail(request, **kwargs):
     snack_id = kwargs['pk']
@@ -70,9 +72,10 @@ def snack_detail(request, **kwargs):
 
     return render(request, 'snack-detail.html', context)
 
+
 def snack_create(request):
     if request.method == 'POST':
-        #form = SnackForm(request.POST)
+        # form = SnackForm(request.POST)
         form = SnackForm(request.POST, request.FILES)
         form.instance.hersteller = request.user
         if form.is_valid():
@@ -92,6 +95,7 @@ def snack_create(request):
         context = {'form': form,
                    'can_delete': can_delete}
         return render(request, 'snack-create.html', context)
+
 
 def snack_delete(request, **kwargs):
     snack_id = kwargs['pk']
@@ -113,6 +117,7 @@ def snack_delete(request, **kwargs):
                'can_delete': can_delete}
 
     return render(request, 'snack-delete.html', context)
+
 
 def snack_search(request):
     if request.method == 'POST':
@@ -140,6 +145,7 @@ def snack_search(request):
                    'show_results': False}
         return render(request, 'snack-search.html', context)
 
+
 def vote(request, pk: str, up_or_down: str):
     comment = Comment.objects.get(id=int(pk))
     voter = request.user
@@ -147,12 +153,14 @@ def vote(request, pk: str, up_or_down: str):
     snack_id = comment.snack.id
     return redirect('snack-detail', pk=snack_id)
 
+
 def report(request, pk: str):
     comment = Comment.objects.get(id=int(pk))
     subject = request.user
     comment.report(subject)
     snack_id = comment.snack.id
     return redirect('snack-detail', pk=snack_id)
+
 
 def comment_edit(request, pk: str):
     comment_id = pk
@@ -179,6 +187,7 @@ def comment_edit(request, pk: str):
                    'comment': comment,
                    }
         return render(request, 'comment-edit.html', context)
+
 
 def comment_delete(request, pk: str):
     comment = Comment.objects.get(id=int(pk))

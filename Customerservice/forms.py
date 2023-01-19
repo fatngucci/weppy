@@ -1,18 +1,17 @@
 from django import forms
 from Snacks.models import Snack, Comment
 
-class SnackEditForm(forms.ModelForm):
 
+class SnackEditForm(forms.ModelForm):
     class Meta:
         model = Snack
-        fields = ('name','gewicht','beschreibung','artikelnummer','preis','hersteller','bilder', 'produkt_info')
+        fields = ('name', 'gewicht', 'beschreibung', 'artikelnummer', 'preis', 'hersteller', 'bilder', 'produkt_info')
         widgets = {
             'snack_id': forms.HiddenInput(),
         }
 
 
 class CommentEditForm(forms.ModelForm):
-
     class Meta:
         model = Comment
         fields = ['text', 'sternbewertung']

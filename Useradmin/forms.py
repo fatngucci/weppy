@@ -3,8 +3,9 @@ from .models import MyUser
 
 
 class MySignUpForm(UserCreationForm):
-
     class Meta:
         model = MyUser
-        fields = ('username', 'first_name', 'last_name', 'email', 'date_of_birth', 'profile_picture', 'some_file', 'password1', 'password2')
-		# password ist wegen UserCreationForm schon mit dabei
+        fields = (
+        'username', 'first_name', 'last_name', 'email', 'date_of_birth', 'profile_picture', 'some_file', 'password1',
+        'password2')
+    # password ist wegen UserCreationForm schon mit dabei

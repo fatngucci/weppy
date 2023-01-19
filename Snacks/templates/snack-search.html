@@ -9,21 +9,21 @@
 
 {% block content %}
     <h2>Search snack</h2>
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Search</button>
-        </form><br><br>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Search</button>
+    </form><br><br>
 
     {% if show_results %}
         <b>Snacks found:</b><br>
         <ul>
-        {% for snack in snacks_found %}
-            <img src="{{ snack.bilder.url }}" height="150" width="150"><br>
-            <a href="{% url 'snack-detail' snack.id %}"><b>{{  snack.name }}</b></a><br>
-            {{ snack.gewicht }} g <br> {{ snack.preis }} € <br>
-            <br>
-        {% endfor %}
+            {% for snack in snacks_found %}
+                <img src="{{ snack.bilder.url }}" height="150" width="150"><br>
+                <a href="{% url 'snack-detail' snack.id %}"><b>{{ snack.name }}</b></a><br>
+                {{ snack.gewicht }} g <br> {{ snack.preis }} € <br>
+                <br>
+            {% endfor %}
         </ul>
     {% endif %}
 {% endblock %}

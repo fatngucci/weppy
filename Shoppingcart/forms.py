@@ -1,6 +1,5 @@
 from django import forms
 
-
 from .models import Payment, ShoppingCartItem
 
 
@@ -16,6 +15,7 @@ class PaymentForm(forms.ModelForm):
         widgets = {
             'benutzer': forms.HiddenInput(),
         }
+
 
 class AddForm(forms.ModelForm):
     class Meta:
