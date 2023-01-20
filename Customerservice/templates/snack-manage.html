@@ -3,51 +3,101 @@
 
 {% block title %}Snack manage{% endblock %}
 
-{% block logged_in_content %}
-    <h2>Snack manage</h2>
-    {% if not can_delete %}
-        You are not authorized to manage snacks.<br><br>
-    {% else %}
-
-        <br><a href="{% url 'snack-create' %}"><h3>add snack</h3></a><br>
-
-        {% if delete_button_clicked %}
-            <img src="{{ the_snack.bilder.url }}" height="150" width="150"><br>
-            <a href="{% url 'snack-detail' the_snack.id %}"><b>{{ the_snack.name }}</b></a><br>
-            {{ the_snack.gewicht }} g <br> {{ the_snack.preis }} € <br>
-            <br>
-            {% if can_delete %}
-                <form method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" id="snack_id" name="snack_id" value="{{ the_snack.id }}">
-                    <b>Diesen Snack wirklich löschen?</b><br>
-                    <button type="submit" name="yes">Ja</button>
-                    <button type="submit" name="no">Nein</button>
-
-                </form>
-            {% endif %}
-
+{% block content %}
+    {% if user.is_authenticated %}
+        <h2 class="display-4 text-center">Manage Snacks</h2>
+        {% if not can_delete %}
+            You are not authorized to manage snacks.<br><br>
         {% else %}
 
-            {% for snack in all_the_snacks %}
-                <img src="{{ snack.bilder.url }}" height="150" width="150"><br>
-                <a href="{% url 'snack-detail' snack.id %}"><b>{{ snack.name }}</b></a><br>
-                {{ snack.gewicht }} g <br> {{ snack.preis }} € <br>
-                <br>
+            <br><a class="display-4 py-2 text-center" href="{% url 'snack-create' %}"><h3>add snack</h3></a><br>
+            <div class="col-12 my-4">
+                <div class="w-75 mx-auto">
+                    <div class="row mx-auto">
+                        {% if delete_button_clicked %}
+                            <div class="mx-auto">
+                                <div class="card m-1 p-4">
 
-                {% if can_delete %}
-                    <form method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" id="snack_id" name="snack_id" value="{{ snack.id }}">
-                        <button type="submit" name="delete">Delete</button>
-                        <button type="submit" name="edit">Edit</button>
-                    </form>
-                {% endif %}
+                                <a href="{% url 'snack-detail' the_snack.id %}">
+                                    <img class="card-img-top" style="width: 18rem;" id="img{{ the_snack.id }}"
+                                         src="{{ the_snack.bilder.url }}" height="150" width="150">
+                                </a>
+                                <div class="text-center">
+                                    <a class="card-title" id="a{{ the_snack.id }}"
+                                       href="{% url 'snack-detail' the_snack.id %}">
+                                        <h4>{{ the_snack.name }}</h4>
+                                    </a>
+                                    <div class="card-text m-1">
+                                        <h5> {{ the_snack.preis }}€ </h5>
+                                        <p style="font-size: 0.8rem;"> {{ the_snack.gewicht }}g </p>
+                                        <p style="font-size: 0.8rem;"> {{ the_snack.get_bewertung }}<img
+                                                src="{% static 'Snacks/staryellow.png' %}" height="20" , width="20">
+                                        </p>
 
-                <br>
-            {% endfor %}
+                                    </div>
+                                    {% if can_delete %}
+                                        <form method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" id="snack_id" name="snack_id"
+                                                   value="{{ the_snack.id }}">
+                                            <p><b>Are you sure?</b></p>
+                                            <button class="border rounded btn-outline-danger px-3 py-2" type="submit"
+                                                    name="yes">Delete
+                                            </button>
+                                            <button class="border rounded btn-outline-primary px-3 py-2" type="submit"
+                                                    name="no">Cancel
+                                            </button>
+
+                                        </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            </div>
+                        {% else %}
+
+                            {% for snack in all_the_snacks %}
+                                <div class="card m-1 p-4">
+                                    <!-- <div class="col align-self-center "> -->
+                                    <a href="{% url 'snack-detail' snack.id %}">
+                                        <img class="card-img-top" style="width: 18rem;" id="img{{ snack.id }}"
+                                             src="{{ snack.bilder.url }}" height="150" width="150">
+                                    </a>
+                                    <div class="text-center">
+                                        <a class="card-title" id="a{{ snack.id }}"
+                                           href="{% url 'snack-detail' snack.id %}">
+                                            <h4>{{ snack.name }}</h4>
+                                        </a>
+                                        <div class="card-text m-1">
+                                            <h5> {{ snack.preis }}€ </h5>
+                                            <p style="font-size: 0.8rem;"> {{ snack.gewicht }}g </p>
+                                            <p style="font-size: 0.8rem;"> {{ snack.get_bewertung }}<img
+                                                    src="{% static 'Snacks/staryellow.png' %}" height="20" , width="20">
+                                            </p>
+
+                                        </div>
+                                        {% if can_delete %}
+                                            <form method="POST">
+                                                {% csrf_token %}
+                                                <input type="hidden" id="snack_id" name="snack_id"
+                                                       value="{{ snack.id }}">
+                                                <button class="border rounded btn-outline-primary px-3 py-2"
+                                                        type="submit" name="edit">Edit
+                                                </button>
+                                                <button class="border rounded btn-outline-danger px-3 py-2"
+                                                        type="submit" name="delete">Delete
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                    </div>
+                                    <!-- </div> -->
+                                </div>
+                            {% endfor %}
+
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <br>
         {% endif %}
-        <br>
     {% endif %}
-
 {% endblock %}

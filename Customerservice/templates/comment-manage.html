@@ -3,50 +3,84 @@
 
 {% block title %}Comment manage{% endblock %}
 
-{% block logged_in_content %}
-    <h2>Comment manage</h2>
-    {% if not can_delete %}
-        You are not authorized to manage comments.<br><br>
-    {% else %}
-
-        {% if delete_button_clicked %}
-            Text: <a href="{% url 'snack-detail' the_comment.snack.id %}"><b>{{ the_comment.text }}</b></a><br>
-            Sterne: {{ the_comment.sternbewertung }}<br>von: {{ the_comment.poster.username }}<br>Meldungen:
-            {{ the_comment.get_reports_count }}
-            <br>
-            {% if can_delete %}
-                <form method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" id="comment_id" name="comment_id" value="{{ the_comment.id }}">
-                    <b>Diesen Kommentar wirklich löschen?</b><br>
-                    <button type="submit" name="yes">Ja</button>
-                    <button type="submit" name="no">Nein</button>
-
-                </form>
-            {% endif %}
-
+{% block content %}
+    {% if user.is_authenticated %}
+        <h2 class="display-4 text-center">Manage Comments</h2>
+        {% if not can_delete %}
+            You are not authorized to manage comments.<br><br>
         {% else %}
+            <div class="col-12 my-4">
+                <div class="w-75 mx-auto">
+                    <div class="row mx-auto">
+                        {% if delete_button_clicked %}
+                            <div class="col-12">
+                                <div class="card m-1">
+                                    <div class="card-body">
+                                        <p>Text: <a
+                                                href="{% url 'snack-detail' the_comment.snack.id %}"><b>{{ the_comment.text }}</b></a>
+                                        </p>
+                                        <p>Sterne: {{ the_comment.sternbewertung }}</p>
+                                        <p>von: {{ the_comment.poster.username }}</p>
+                                        <p>Meldungen:
+                                            {{ the_comment.get_reports_count }}</p>
+                                    </div>
+                                    {% if can_delete %}
+                                        <div class="card-footer">
+                                            <form method="POST">
+                                                {% csrf_token %}
+                                                <input type="hidden" id="comment_id" name="comment_id"
+                                                       value="{{ the_comment.id }}">
+                                                <p><b>Are you sure?</b></p>
+                                                <button class="border rounded btn-outline-danger px-3 py-2" type="submit" name="yes">Delete</button>
+                                                <button class="border rounded btn-outline-dark px-3 py-2" type="submit" name="no">Cancel</button>
 
-            {% for comment in all_the_comments %}
-                Text: <a href="{% url 'snack-detail' comment.snack.id %}"><b>{{ comment.text }}</b></a><br>
-                Sterne: {{ comment.sternbewertung }}<br>von: {{ comment.poster.username }}<br>Meldungen:
-                {{ comment.get_reports_count }}
-                <br>
+                                            </form>
+                                        </div>
 
-                {% if can_delete %}
-                    <form method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" id="comment_id" name="comment_id" value="{{ comment.id }}">
-                        <button type="submit" name="delete">Löschen</button>
-                        <button type="submit" name="edit">Bearbeiten</button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% else %}
 
-                    </form>
-                {% endif %}
 
-                <br>
-            {% endfor %}
+                            {% for comment in all_the_comments %}
+                                <div class="col-12">
+                                    <div class="card m-1">
+                                        <div class="card-body">
+                                            <p>Text: <a
+                                                    href="{% url 'snack-detail' comment.snack.id %}"><b>{{ comment.text }}</b></a>
+                                            </p>
+                                            <p>Sterne: {{ comment.sternbewertung }}</p>
+                                            <p>von: {{ comment.poster.username }}</p>
+                                            <p>Meldungen: {{ comment.get_reports_count }}</p>
+                                        </div>
+
+                                        {% if can_delete %}
+                                            <div class="card-footer">
+                                                <form method="POST">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" id="comment_id" name="comment_id"
+                                                           value="{{ comment.id }}">
+
+                                                    <button class="border rounded btn-outline-primary px-3 py-2"
+                                                            type="submit" name="edit">Edit
+                                                    </button>
+                                                    <button class="border rounded btn-outline-danger px-3 py-2"
+                                                            type="submit" name="delete">Delete
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         {% endif %}
-    {% endif %}
-    <br>
 
+    {% endif %}
 {% endblock %}

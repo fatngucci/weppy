@@ -14,15 +14,14 @@ def snack_list(request):
         search_string_name = request.POST['name']
         snacks_found = Snack.objects.filter(name__contains=search_string_name)
 
-        search_string_beschreibung = request.POST['beschreibung']
+        search_string_beschreibung = request.POST['description']
         if search_string_beschreibung:
             snacks_found = snacks_found.filter(beschreibung__contains=search_string_beschreibung)
 
-        search_bewertung = request.POST['produkt_bewertung']
+        search_bewertung = request.POST['rating']
         if search_bewertung:
-            search_bewertung_as_decimal = Decimal(search_bewertung)
-            print(search_bewertung_as_decimal)
-            snacks_found = snacks_found.filter(produkt_bewertung__gte=search_bewertung_as_decimal)
+            search_bewertung_as_float = float(search_bewertung)
+            snacks_found = snacks_found.filter(produkt_bewertung__gte=search_bewertung_as_float)
 
         results = False
         if len(snacks_found) > 0:
@@ -31,14 +30,15 @@ def snack_list(request):
         form = SearchForm()
         context = {'form': form,
                    'snacks_found': snacks_found,
-                   'show_results': results}
-
+                   'show_results': results,
+                   'search_name': search_string_name}
         return render(request, 'snack-search.html', context)
-    all_the_snacks = Snack.objects.all()
-    # form = SearchForm(request.POST)
-    context = {'all_the_snacks': all_the_snacks,
+    else:
+        all_the_snacks = Snack.objects.all()
+        # form = SearchForm(request.POST)
+        context = {'all_the_snacks': all_the_snacks,
                'form': SearchForm}
-    return render(request, 'snack-list.html', context)
+        return render(request, 'snack-list.html', context)
 
 
 def snack_detail(request, **kwargs):
@@ -48,6 +48,7 @@ def snack_detail(request, **kwargs):
     if request.method == 'POST':
 
         if 'comment' in request.POST:
+            that_one_snack.get_bewertung()
             form = CommentForm(request.POST)
             form.instance.poster = request.user
             form.instance.snack = that_one_snack
@@ -83,7 +84,7 @@ def snack_create(request):
         else:
             pass
 
-        return redirect('snack-list')
+        return redirect('snack-manage')
 
     else:
         form = SnackForm()
@@ -124,20 +125,20 @@ def snack_search(request):
         search_string_name = request.POST['name']
         snacks_found = Snack.objects.filter(name__contains=search_string_name)
 
-        search_string_beschreibung = request.POST['beschreibung']
+        search_string_beschreibung = request.POST['description']
         if search_string_beschreibung:
             snacks_found = snacks_found.filter(beschreibung__contains=search_string_beschreibung)
 
-        search_bewertung = request.POST['produkt_bewertung']
+        search_bewertung = request.POST['rating']
         if search_bewertung:
-            search_bewertung_as_decimal = Decimal(search_bewertung)
-            print(search_bewertung_as_decimal)
-            snacks_found = snacks_found.filter(produkt_bewertung__gte=search_bewertung_as_decimal)
+            search_bewertung_as_float = float(search_bewertung)
+            snacks_found = snacks_found.filter(produkt_bewertung__gte=search_bewertung_as_float)
 
         form = SearchForm()
         context = {'form': form,
                    'snacks_found': snacks_found,
-                   'show_results': True}
+                   'show_results': True,
+                   'search_name': search_string_name}
         return render(request, 'snack-search.html', context)
     else:
         form = SearchForm()

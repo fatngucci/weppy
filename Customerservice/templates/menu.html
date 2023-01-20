@@ -4,12 +4,13 @@
 {% block title %}Customer Service{% endblock %}
 
 {% block logged_in_content %}
-    <h2>Customer Service</h2>
+    <h2 class="display-4 text-center mb-5">Customer Service</h2>
     {% if not can_delete %}
         You are not authorized.<br><br>
     {% else %}
-        <p><a href="{% url 'snack-manage' %}">Show me the snacks</a></p>
-        <p><a href="{% url 'comment-manage' %}">Show me the comments</a></p>
+        <p><a href="{% url 'snack-manage' %}"><button class="border rounded btn-outline-dark px-3 py-2">Manage snacks</button></a></p>
+        <p><a href="{% url 'comment-manage' %}"><button class="border rounded btn-outline-dark px-3 py-2">Manage comments</button></a></p>
+        <p><a href="{% url 'myuser-list' %}"><button class="border rounded btn-outline-dark px-3 py-2">Manage users</button></a></p>
         {{ comment.text }}<br>
     {% endif %}
 {% endblock %}

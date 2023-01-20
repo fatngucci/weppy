@@ -45,6 +45,8 @@ class MyUser(AbstractUser):
             if shopping_carts:
                 shopping_cart = shopping_carts.first()
                 count = shopping_cart.get_number_of_items()
+            else:
+                ShoppingCart.objects.create(benutzer=self)
 
         return count
 

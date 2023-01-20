@@ -20,7 +20,8 @@ class Snack(models.Model):
                                    )
     preis = models.DecimalField(decimal_places=2, max_digits=10)  # in € z.B. 2.50 €
     erstellungs_zeitstempel = models.DateTimeField(auto_now_add=True)
-    produkt_bewertung = models.DecimalField(decimal_places=1, max_digits=10, default=0)  # pass auf!
+    #produkt_bewertung = models.DecimalField(decimal_places=1, max_digits=10, default=0)  # pass auf!
+    produkt_bewertung = models.FloatField(default=0)
 
     class Meta:
         ordering = ['erstellungs_zeitstempel', 'name']
@@ -41,7 +42,8 @@ class Snack(models.Model):
                 bewertung += float(c.sternbewertung)
             bewertung = bewertung / len(comments)
 
-        self.produkt_bewertung = bewertung
+        self.produkt_bewertung = round(bewertung,1)
+        self.save()
         return self.produkt_bewertung
 
 

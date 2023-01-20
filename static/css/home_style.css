@@ -1,12 +1,15 @@
-*,
-*::after,
-*::before {
-    box-sizing: border-box;
+body {
+    background-color: white;
+    background: white;
 }
 
+img {
+    object-fit: scale-down;
+}
 
-body {
-    font-size: 20px;
-    color: indigo;
-    background: lightpink;
+.card-title,
+.card-subtitle {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }

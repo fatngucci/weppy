@@ -1,6 +1,8 @@
 from decimal import Decimal
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+
+from Snacks.models import Snack
 from .forms import PaymentForm, AddForm
 from .models import ShoppingCart, ShoppingCartItem
 
@@ -19,6 +21,9 @@ def show_shopping_cart(request):
 
         elif 'pay' in request.POST:
             return redirect('shopping-cart-pay')
+
+        elif 'back' in request.POST:
+            return redirect('snack-list')
 
         elif 'plus' in request.POST:
             produkt_id_as_int = int(request.POST['produkt_id'])

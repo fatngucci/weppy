@@ -3,24 +3,35 @@
 
 {% block title %}Comment edit{% endblock %}
 
-{% block logged_in_content %}
-    <h2>Comment edit</h2>
+{% block content %}
+    <h2 class="display-4 text-center mb-5">Edit Comment</h2>
     {% if not can_delete %}
         You are not authorized to edit comments.<br><br>
     {% else %}
+        <div class="container">
+            <div class="row mx-auto">
+                <div class="col-md-6 col-sm-12">
+                    <img class="my-3" src="{{ comment.snack.bilder.url }}" height="350" width="350"><br>
+                </div>
 
-        <table>
-            <img src="{{ comment.snack.bilder.url }}" height="350" width="350"><br>
-        </table>
-        {% if can_delete %}
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Edit</button>
-                <button type="submit" name="cancel">Cancel</button>
-            </form>
-        {% else %}
-            {{ comment.text }}<br>
-        {% endif %}
+                <div class="col-md-6 col-sm-12 mb-5">
+                    {% if can_delete %}
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button class="border rounded btn-outline-primary px-3 py-2" type="submit">Edit</button>
+                            <button class="border rounded btn-outline-dark px-3 py-2" type="submit" name="cancel">
+                                Cancel
+                            </button>
+                        </form>
+                    {% else %}
+                        {{ comment.text }}<br>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+
+
     {% endif %}
 {% endblock %}

@@ -1,6 +1,8 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column, Submit, Div
 from django import forms
+
+import Snacks.models
 from .models import Snack, Comment
 
 
@@ -53,9 +55,12 @@ class CommentEditForm(forms.ModelForm):
 
 
 class SearchForm(forms.ModelForm):
-    beschreibung = forms.CharField(required=False)
-    produkt_bewertung = forms.DecimalField(required=False)
-
+    name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Name',}), required=True)
+    description = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Description',}), required=False)
+    #produkt_bewertung = forms.DecimalField(widget=forms.NumberInput(attrs={'placeholder': 'Bewertung'}), required=False)
+    #produkt_bewertung = forms.FloatField(widget=forms.NumberInput(attrs={'placeholder': 'Bewertung'}), required=False)
+    rating = forms.FloatField(widget=forms.Select(choices=Comment.STERN_BEWERTUNG, attrs={'placeholder': 'Rating'}), required=False)
+    #rating = forms.FloatField(widget=forms.NumberInput(attrs={'placeholder': 'Rating'}), required=False)
     # name = forms.CharField()
     # beschreibung = forms.CharField(required=False)
     # produkt_bewertung = forms.DecimalField(required=False)
@@ -71,13 +76,14 @@ class SearchForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
+        self.helper.form_show_labels = False
         self.helper.form_method = 'post'
         self.helper.layout = Layout(
-            Column('name', css_class='form-group mx-auto'),
-            Column('beschreibung', css_class='form-group mx-auto'),
-            Column('produkt_bewertung', css_class='form-group mx-auto'),
+            Column('name', css_class='form-group mx-1'),
+            Column('description', css_class='form-group mx-1'),
+            Column('rating', css_class='form-group mx-1'),
             Div(
-                Submit('submit', 'Search', css_class='btn mx-auto')
-                , css_class='text-center',
+                Submit('submit', 'Search', css_class='btn my-auto mx-1')
+                , css_class='mx-3 my-auto',
             )
         )

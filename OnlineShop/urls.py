@@ -17,12 +17,16 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
+
+import Snacks.views
 from Useradmin.views import HomeBirthdayView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('home/', HomeBirthdayView.as_view(template_name='home.html'), name='home'), # old one
-    path('', HomeBirthdayView.as_view(template_name='home.html'), name='home'),
+    # path('', HomeBirthdayView.as_view(template_name='home.html'), name='home'),
+    #path('', Snacks.views.snack_list, name='snack-list'),
+    path('', Snacks.views.snack_list, name='home'),
     path('useradmin/', include('Useradmin.urls')),
     path('useradmin/', include('django.contrib.auth.urls')),
     path('snacks/', include('Snacks.urls')),

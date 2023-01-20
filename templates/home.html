@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% load static %}
+{% load crispy_forms_tags %}
+
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/home_style.css' %}">
 {% endblock %}
@@ -11,7 +14,7 @@
     <div class="mw-100 d-flex justify-content-between">
         <div></div>
         <div class="display-3 text-center py-2 mx-auto">Snacks'n'Juice</div>
-
+        <!--
         <a class="position-fixed" style="right: 0.25em; top: 0.25em;" href="{% url 'shopping-cart-show' %}">
             Shopping Cart (
             {% if user.is_authenticated %}
@@ -21,66 +24,92 @@
             {% endif %}
             )
         </a>
+        -->
     </div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="{% url 'home' %}">Home</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-warning">
+        <!--<a class="navbar-brand" href="{% url 'snack-list' %}">Snacks</a>-->
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
+
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'snack-list' %}">Snacks <span class="sr-only">(current)</span></a>
+                <li class="nav-item mx-2">
+                    <a class="nav-link h4" href="{% url 'snack-list' %}">Snacks</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item mx-2">
+                        <a class="nav-link h4" href="{% url 'shopping-cart-show' %}">
+                            Shopping Cart({{ request.user.count_shopping_cart_items }})
+                        </a>
+                    </li>
+                    {% if user.can_delete %}
+                        <li class="nav-item mx-2">
+                            <a class="nav-link h4" href="{% url 'menu' %}">Customerservice</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <ul class="navbar-nav ml-auto mr-3">
+                {% if user.is_authenticated %}
+                    <li class="nav-item mx-2">
+                        <a class="nav-link h4" href="{% url 'logout' %}">Logout</a>
+                    </li>
+
+                {% else %}
+                    <li class="nav-item mx-2">
+                        <a class="nav-link h4" href="{% url 'login' %}">Login</a>
+                    </li>
+
+                {% endif %}
+
+            </ul>
+
+
+            <form method="POST" class="row justify-content-center my-lg-0">
             </form>
         </div>
     </nav>
 {% endblock %}
 
 {% block content %}
-    {% if user.is_authenticated %}
-        {% block logged_in_content %}
-            <H1>Homepage</H1>
-            <p>Hi {{ user.username }}!</p>
-            {% if myuser_has_birthday_today %}
-                <p>Happy Birthday!</p>
+    <div class="container py-2">
+        <!--<h1 class="display-4 py-2 text-center">Homepage</h1>-->
+        <div class="text-center">
+            {% if user.is_authenticated %}
+                {% block logged_in_content %}
+                    <p>Hi {{ user.username }}!</p>
+                    {% if myuser_has_birthday_today %}
+                        <p>Happy Birthday!</p>
+                    {% endif %}
+                    <p><a href="{% url 'snack-list' %}">Show me the snacks</a></p>
+                    {% if user.can_delete %}
+                        <p><a href="{% url 'myuser-list' %}">Show me the users</a></p>
+                        <p><a href="{% url 'menu' %}">Customerservice</a></p>
+                    {% endif %}
+                    <a href="{% url 'logout' %}">Logout</a>
+                {% endblock %}
+            {% else %}
+                {% block not_logged_in_content %}
+                    <p>You are not logged in</p>
+                    <p><a href="{% url 'login' %}">Login</a></p>
+                    <a href="{% url 'signup' %}">Signup</a>
+                {% endblock %}
             {% endif %}
-            <p><a href="{% url 'snack-list' %}">Show me the snacks</a></p>
-            <p><a href="{% url 'myuser-list' %}">Show me the users</a></p>
-            <p><a href="{% url 'menu' %}">Customerservice</a></p>
-            <a href="{% url 'logout' %}">Logout</a>
-        {% endblock %}
-    {% else %}
-        {% block not_logged_in_content %}
-            <H1>Homepage</H1>
-            <p>You are not logged in</p>
-            <p><a href="{% url 'login' %}">Login</a></p>
-            <a href="{% url 'signup' %}">Signup</a>
-        {% endblock %}
-    {% endif %}
+        </div>
+    </div>
 {% endblock %}
 
+{% block footer %}
+    <footer class="container-fluid bg-warning" style="height: 60px;">
+        <div class="container text-center p-1" style="max-width: 680px;">
+            <span class="text-muted"> made by </span>
+            <br>
+            <span class="text-muted"> Jonathan Harsono & Taro Anklam </span>
+        </div>
+    </footer>
+{% endblock %}

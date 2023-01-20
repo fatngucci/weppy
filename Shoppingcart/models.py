@@ -4,6 +4,8 @@ from django.db import models
 from django.utils import timezone
 from django.core.validators import MinValueValidator
 
+from Snacks.models import Snack
+
 
 # Create your models here.
 class ShoppingCart(models.Model):
@@ -14,14 +16,15 @@ class ShoppingCart(models.Model):
 
     def add_item(myuser, snack, menge):
         shopping_carts = ShoppingCart.objects.filter(benutzer=myuser)
+        shopping_cart = 0
         if shopping_carts:
             shopping_cart = shopping_carts.first()
         else:
             shopping_cart = ShoppingCart.objects.create(benutzer=myuser)
 
-        snack_in_cart = ShoppingCartItem.objects.filter(produkt_id=snack.id)
-        the_snack = snack_in_cart.first()
-        if the_snack:
+        snack_in_cart = ShoppingCartItem.objects.filter(produkt_id=snack.id, shopping_cart=shopping_cart)
+        if snack_in_cart:
+            the_snack = snack_in_cart.first()
             the_snack.menge += menge
             the_snack.save()
 
@@ -71,6 +74,9 @@ class ShoppingCartItem(models.Model):
     def add(self):
         self.menge += 1
         self.save()
+
+    def get_snack(self):
+        return Snack.objects.get(id=self.produkt_id)
 
 
 class Payment(models.Model):

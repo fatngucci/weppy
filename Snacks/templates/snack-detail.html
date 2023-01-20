@@ -9,22 +9,29 @@
 {% block title %} Snack detail{% endblock %}
 
 {% block content %}
-    <div class="container-fluid">
-        <div class="row bg-warning border">
-            <div class="ml-auto p-4">
+    <div class="container-fluid sticky-top" style="top: 0px;">
+        <div class="row bg-warning">
+            <div class="ml-auto my-auto p-4">
                 <img class="" src="{{ that_one_snack.bilder.url }}" height="350" width="350" alt="">
             </div>
             <div class="mr-auto p-4 w-25 text-white">
-                <div class="text-center display-2">
+                <div class="text-center display-2 mh-50">
                     <strong>{{ that_one_snack.name }}</strong>
                 </div>
-                <div class="text-center mb-5 h5">
+                <div class="text-center mb-3 h5">
+                    {{ that_one_snack.beschreibung }}
+                </div>
+                <div class="text-center mb-3 h5">
                     {{ that_one_snack.preis }}€
                 </div>
-                <div class="text-center mb-5 h5">
+                <div class="text-center mb-3 h5">
                     {{ that_one_snack.gewicht }}g
                 </div>
-                <div class="text-center text-secondary h6">
+                <div class="text-center mb-3 h5">
+                    {{ that_one_snack.get_bewertung }}
+                    <img src="{% static 'Snacks/staryellow.png' %}" height="25" , width="25">
+                </div>
+                <div class="text-center text-muted h6">
                     Artikelnummer: {{ that_one_snack.artikelnummer }}
                 </div>
                 <!--
@@ -71,17 +78,20 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid">
+    <div class="container-fluid ">
         <div class="row my-4">
             <div class="mx-auto p-1">
                 {% if user.is_authenticated %}
                     <form method="POST">
-                        {% csrf_token %}
-                        <button class="border rounded text-white bg-primary px-3 py-2" type="submit" name="cart">Add to
-                            shopping cart
-                        </button>
-                        {{ add_form.as_p }}
-                        <button class="btn" type="submit" name="cart">Add to shopping cart</button>
+                        <div class="row">
+                            <div class="my-auto">
+                                {% csrf_token %}
+                                {{ add_form.as_p }}
+                            </div>
+                            <button class="border rounded text-white bg-primary px-3 py-2" type="submit" name="cart">Add
+                                to shopping cart
+                            </button>
+                        </div>
                     </form>
                 {% else %}
                     <br><a href="{% url 'login' %}">Login</a> to add to shopping cart
@@ -94,56 +104,64 @@
         <div class="row justify-content-between">
             <div class="p-4">
                 {% for comment in comments_for_that_one_snack %}
-                    <b>{{ comment.poster.username }} on {{ comment.timestamp }}</b><br>
-                    {% for star in comment.get_sterne %}
-                        {% if star %}
-                            <img src="{% static 'Snacks/staryellow.png' %}" height="25" , width="25">
-                        {% else %}
-                            <img src="{% static 'Snacks/stargrey.png' %}" height="25" , width="25">
-                        {% endif %}
-                    {% endfor %}<br>
-                    {{ comment.text }}<br>
+                    <div class="col-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title">{{ comment.text }}<br></div>
+                                <b>{{ comment.poster.username }} on {{ comment.timestamp }}</b><br>
+                                <div>
+                                    {% for star in comment.get_sterne %}
+                                        {% if star %}
+                                            <img src="{% static 'Snacks/staryellow.png' %}" height="25" , width="25">
+                                        {% else %}
+                                            <img src="{% static 'Snacks/stargrey.png' %}" height="25" , width="25">
+                                        {% endif %}
+                                    {% endfor %}<br>
+                                </div>
 
-                    {% if user.is_authenticated %}
-                        {% block logged_in_content %}
 
-                            <span>{{ comment.get_upvotes_count }}</span>
-                            <a href="{% url 'comment-vote' comment.id 'up' %}">
-                                <img src="{% static 'Snacks/upvote.png' %}" height="30" width="30">
-                            </a>
+                            {% if user.is_authenticated %}
+                                {% block logged_in_content %}
 
-                            <span>{{ comment.get_downvotes_count }}</span>
-                            <a href="{% url 'comment-vote' comment.id 'down' %}">
-                                <img src="{% static 'Snacks/downvote.png' %}" height="30" width="30">
-                            </a>
-                            <br>
-                            {% if comment.poster == user %}
-                                <a href="{% url 'comment-edit' comment.id %}">Edit</a>
-                                <a href="{% url 'comment-delete' comment.id %}">Delete</a>
+                                    <span>{{ comment.get_upvotes_count }}</span>
+                                    <a href="{% url 'comment-vote' comment.id 'up' %}">
+                                        <img src="{% static 'Snacks/upvote.png' %}" height="30" width="30">
+                                    </a>
+
+                                    <span>{{ comment.get_downvotes_count }}</span>
+                                    <a href="{% url 'comment-vote' comment.id 'down' %}">
+                                        <img src="{% static 'Snacks/downvote.png' %}" height="30" width="30">
+                                    </a>
+                                    <br>
+                                    {% if comment.poster == user %}
+                                        <a class="mr-2" href="{% url 'comment-edit' comment.id %}">Edit</a>
+                                        <a href="{% url 'comment-delete' comment.id %}">Delete</a>
+                                    {% else %}
+                                        <a href="{% url 'comment-report' comment.id %}">Report</a>
+                                    {% endif %}
+                                    <br>
+
+                                {% endblock %}
+
                             {% else %}
-                                <a href="{% url 'comment-report' comment.id %}">Report</a>
+                                {% block not_logged_in_content %}
+                                    <span>{{ comment.get_upvotes_count }}</span>
+                                    <img src="{% static 'Snacks/upvote.png' %}" height="30" width="30">
+
+
+                                    <span>{{ comment.get_downvotes_count }}</span>
+
+                                    <img src="{% static 'Snacks/downvote.png' %}" height="30" width="30">
+
+                                    <br>
+
+                                    <br>
+
+                                {% endblock %}
                             {% endif %}
-                            <br>
-
-                        {% endblock %}
-
-                    {% else %}
-                        {% block not_logged_in_content %}
-                            <span>{{ comment.get_upvotes_count }}</span>
-                            <img src="{% static 'Snacks/upvote.png' %}" height="30" width="30">
-
-
-                            <span>{{ comment.get_downvotes_count }}</span>
-
-                            <img src="{% static 'Snacks/downvote.png' %}" height="30" width="30">
-
-                            <br>
-
-                            <br>
-
-                        {% endblock %}
-                    {% endif %}
-
+                            </div>
+                        </div>
+                    </div>
                 {% endfor %}
             </div>
             <div class="row p-4">
@@ -165,8 +183,23 @@
         </div>
     </div>
 
-    <a class="position-fixed" style="top:0.25em; left: 0.25em;" href="{% url 'snack-list' %}">Back to all snacks</a>
-    {% if user.is_authenticated and user.can_delete %}
-        <a class="w-100" href="{{ snack.id }}delete/">Delete snack</a>
-    {% endif %}
+    <!--
+    <a class="position-fixed" style="top:0.25em; left: 0.25em;" href="{% url 'snack-list' %}">
+        <button class="border rounded btn-outline-dark px-3 py-2">Back</button>
+    </a>
+    -->
+
+    <div class="container mb-3">
+        {% if user.is_authenticated and user.can_delete %}
+            <a class="w-100 " href="delete/">
+                <button class="border rounded btn-outline-danger px-3 py-2">Delete snack</button>
+            </a>
+            <a class="w-100 " href="../../../customerservice/edit/snack/{{ that_one_snack.id }}">
+                <button class="border rounded btn-outline-primary px-3 py-2">Edit snack</button>
+            </a>
+        {% endif %}
+        <a class="w-100 " href="{% url 'snack-list' %}">
+            <button class="mr-auto border rounded btn-outline-secondary px-3 py-2">Back</button>
+        </a>
+    </div>
 {% endblock %}
